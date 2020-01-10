@@ -1,0 +1,12 @@
+C:\CognexVisionPro\Projects\PopsicleDataLogger\bin\Release\PopsicleDataLogger.exe.config
+C:\CognexVisionPro\Projects\PopsicleDataLogger\bin\Release\PopsicleDataLogger.exe
+C:\CognexVisionPro\Projects\PopsicleDataLogger\bin\Release\PopsicleDataLogger.pdb
+C:\CognexVisionPro\Projects\PopsicleDataLogger\bin\Release\Utilities.dll
+C:\CognexVisionPro\Projects\PopsicleDataLogger\bin\Release\Utilities.pdb
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\ResolveAssemblyReference.cache
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\PopsicleDataLogger.PopsicleDataLoggerMain.resources
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\PopsicleDataLogger.Properties.Resources.resources
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\GenerateResource.read.1.tlog
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\GenerateResource.write.1.tlog
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\PopsicleDataLogger.exe
+C:\CognexVisionPro\Projects\PopsicleDataLogger\obj\x86\Release\PopsicleDataLogger.pdb

@@ -1,0 +1,510 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using Cognex.VisionPro.ToolGroup;
+using Cognex.VisionPro.CalibFix;
+using Cognex.VisionPro.QuickBuild;
+using Cognex.VisionPro.PMAlign;
+using Maf.Tools;
+
+namespace AbbCom.Forms
+{
+    public partial class PatternParams : Form
+    {
+
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+        CogJobManager mcjmAcq;
+        MachineConfig machineParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+
+        public PatternParams(MainForm mf, RuntimeParameters rp, MachineConfig mc, CogJobManager cjm)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            runtimeParameters = rp;
+            machineParameters = mc;
+            restoreParameters = rp.ShallowCopy();
+            mcjmAcq = cjm;
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+
+            bool cond1 = false;
+
+            // Decide to restore the parameters
+            cond1 = runtimeParameters.VisPatRunParamsZoneScaleLow != restoreParameters.VisPatRunParamsZoneScaleLow;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsZoneScaleHigh != restoreParameters.VisPatRunParamsZoneScaleHigh;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsContrastThreshold != restoreParameters.VisPatRunParamsContrastThreshold;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsElasticity != restoreParameters.VisPatRunParamsElasticity;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsCoarseAcceptThresholdChecked != restoreParameters.VisPatRunParamsCoarseAcceptThresholdChecked;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsCoarseAcceptThreshold != restoreParameters.VisPatRunParamsCoarseAcceptThreshold;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsZoneAngleLow != restoreParameters.VisPatRunParamsZoneAngleLow;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsZoneAngleHigh != restoreParameters.VisPatRunParamsZoneAngleHigh;
+            cond1 = cond1 || runtimeParameters.VisPatRunParamsZoneAngleOverlap != restoreParameters.VisPatRunParamsZoneAngleOverlap;
+
+            if (cond1)
+            {
+                RestorePatternParameters();
+            }
+
+            Close();
+        }
+
+        private void RestorePatternParameters()
+        {
+            CogToolGroup lctg;
+            CogPMAlignTool myPMAlignTool;
+
+            lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+            myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+            // Restore the Zone Scale Low/High
+            myPMAlignTool.RunParams.ZoneScale.Low = restoreParameters.VisPatRunParamsZoneScaleLow;
+            myPMAlignTool.RunParams.ZoneScale.High = restoreParameters.VisPatRunParamsZoneScaleHigh;
+
+            // Restore the Zone angle Low/High/Overlap
+            myPMAlignTool.RunParams.ZoneAngle.Low = restoreParameters.VisPatRunParamsZoneAngleLow;
+            myPMAlignTool.RunParams.ZoneAngle.High = restoreParameters.VisPatRunParamsZoneAngleHigh;
+            myPMAlignTool.RunParams.ZoneAngle.Overlap = restoreParameters.VisPatRunParamsZoneAngleOverlap;
+
+            // Restore Contrast threshold
+            myPMAlignTool.RunParams.ContrastThreshold = restoreParameters.VisPatRunParamsContrastThreshold;
+
+            // Restore Coarse Acceptance params
+            myPMAlignTool.RunParams.CoarseAcceptThresholdEnabled = restoreParameters.VisPatRunParamsCoarseAcceptThresholdChecked;
+            myPMAlignTool.RunParams.CoarseAcceptThreshold = restoreParameters.VisPatRunParamsCoarseAcceptThreshold;
+
+            // Restore Elasticity
+            myPMAlignTool.Pattern.Elasticity = restoreParameters.VisPatRunParamsElasticity;
+
+            mainForm.SerializeRuntimeParameters(restoreParameters);
+        }
+
+        private void PatternParams_Load(object sender, EventArgs e)
+        {
+            // Update controls
+            try
+            {
+                numericUpDownVisPatZoneScaleLow.Value = (decimal)runtimeParameters.VisPatRunParamsZoneScaleLow;
+                numericUpDownVisPatZoneScaleHigh.Value = (decimal)runtimeParameters.VisPatRunParamsZoneScaleHigh;
+
+                numericUpDownZoneAngLow.Value = (decimal)mainForm.RadiansToDegrees(runtimeParameters.VisPatRunParamsZoneAngleLow);
+                numericUpDownZoneAngHigh.Value = (decimal)mainForm.RadiansToDegrees(runtimeParameters.VisPatRunParamsZoneAngleHigh);
+                numericUpDownZoneAngOverlap.Value = (decimal)mainForm.RadiansToDegrees(runtimeParameters.VisPatRunParamsZoneAngleOverlap);
+
+                numericUpDownVisPatContrastThreshold.Value = (decimal)runtimeParameters.VisPatRunParamsContrastThreshold;
+                numericUpDownVisPatElasticity.Value = (decimal)runtimeParameters.VisPatRunParamsElasticity;
+
+                checkBoxVisPatCoarseAcceptThreshold.Checked = runtimeParameters.VisPatRunParamsCoarseAcceptThresholdChecked;
+                numericUpDownVisPatCoarseAcceptThreshold.Value = (decimal)runtimeParameters.VisPatRunParamsCoarseAcceptThreshold;
+
+                numericUpDownVisXwindowMin.Value = (decimal)runtimeParameters.VisXwindowMin;
+                numericUpDownVisXwindowMax.Value = (decimal)runtimeParameters.VisXwindowMax;
+
+                numericUpDownVisXwindowMin.Enabled = false;
+                numericUpDownVisXwindowMax.Enabled = false;
+
+                if (checkBoxVisPatCoarseAcceptThreshold.Checked)
+                {
+                    numericUpDownVisPatCoarseAcceptThreshold.Enabled = true;
+                }
+                else
+                {
+                    numericUpDownVisPatCoarseAcceptThreshold.Enabled = false;
+                }
+
+                if (mainForm.VisionOnline)
+                {
+                    buttonManualTrigger.Enabled = false;
+                }
+
+                checkBoxEnablePatternClipping.Enabled = false;
+                if (mainForm.GetUserAccountLevel(mainForm.CurrentLoggedOnUser) >= 3)
+                {
+                    checkBoxEnablePatternClipping.Enabled = true;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @PatternParams_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+        private void any_numeric_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            CogToolGroup lctg;
+            CogPMAlignTool myPMAlignTool;
+
+            // Update object members
+            switch (name)
+            {
+                case "numericUpDownVisPatZoneScaleLow":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsZoneScaleLow; //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+                        myPMAlignTool.RunParams.ZoneScale.Low = Math.Min((double)((NumericUpDown)sender).Value, runtimeParameters.VisPatRunParamsZoneScaleHigh);
+                        runtimeParameters.VisPatRunParamsZoneScaleLow = Math.Min((double)((NumericUpDown)sender).Value, runtimeParameters.VisPatRunParamsZoneScaleHigh);
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsZoneScaleLow;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
+
+                    break;
+                case "numericUpDownVisPatZoneScaleHigh":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsZoneScaleHigh; //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+                        myPMAlignTool.RunParams.ZoneScale.High = Math.Max((double)((NumericUpDown)sender).Value, runtimeParameters.VisPatRunParamsZoneScaleLow);
+                        runtimeParameters.VisPatRunParamsZoneScaleHigh = Math.Max((double)((NumericUpDown)sender).Value, runtimeParameters.VisPatRunParamsZoneScaleLow);
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsZoneScaleHigh;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
+
+                    break;
+
+                case "numericUpDownVisPatContrastThreshold":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsContrastThreshold; //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.RunParams.ContrastThreshold = (double)((NumericUpDown)sender).Value;
+                        runtimeParameters.VisPatRunParamsContrastThreshold = (double)((NumericUpDown)sender).Value;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    break;
+
+                case "numericUpDownVisPatElasticity":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsElasticity; //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.Pattern.Elasticity = (double)((NumericUpDown)sender).Value;
+                        runtimeParameters.VisPatRunParamsElasticity = (double)((NumericUpDown)sender).Value;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    break;
+
+                case "numericUpDownVisPatCoarseAcceptThreshold":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsCoarseAcceptThreshold; //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.RunParams.CoarseAcceptThreshold = Math.Min((double)((NumericUpDown)sender).Value, runtimeParameters.VisPatMatchAcceptThreshold);
+                        runtimeParameters.VisPatRunParamsCoarseAcceptThreshold = Math.Min((double)((NumericUpDown)sender).Value, runtimeParameters.VisPatMatchAcceptThreshold);
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisPatRunParamsCoarseAcceptThreshold;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    break;
+
+                case "numericUpDownZoneAngLow":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)mainForm.RadiansToDegrees(runtimeParameters.VisPatRunParamsZoneAngleLow); //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.RunParams.ZoneAngle.Low = (double)mainForm.DegreesToRadians((double)((NumericUpDown)sender).Value);
+                        runtimeParameters.VisPatRunParamsZoneAngleLow = mainForm.DegreesToRadians((double)((NumericUpDown)sender).Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    break;
+
+                case "numericUpDownZoneAngHigh":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)mainForm.RadiansToDegrees(runtimeParameters.VisPatRunParamsZoneAngleHigh); //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.RunParams.ZoneAngle.High = (double)mainForm.DegreesToRadians((double)((NumericUpDown)sender).Value);
+                        runtimeParameters.VisPatRunParamsZoneAngleHigh = (double)mainForm.DegreesToRadians((double)((NumericUpDown)sender).Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    break;
+
+                case "numericUpDownZoneAngOverlap":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)mainForm.RadiansToDegrees(runtimeParameters.VisPatRunParamsZoneAngleOverlap); //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.RunParams.ZoneAngle.Overlap = (double)mainForm.DegreesToRadians((double)((NumericUpDown)sender).Value);
+                        runtimeParameters.VisPatRunParamsZoneAngleOverlap = (double)mainForm.DegreesToRadians((double)((NumericUpDown)sender).Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    break;
+
+                case "numericUpDownVisXwindowMin":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisXwindowMin; //Restore value
+                        return;
+                    }
+                    runtimeParameters.VisXwindowMin = (double)((NumericUpDown)sender).Value;
+
+                    lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                    lctg.SetScriptTerminalData("VisXwindowMin", (double)numericUpDownVisXwindowMin.Value);
+
+                    break;
+
+                case "numericUpDownVisXwindowMax":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.VisXwindowMax; //Restore value
+                        return;
+                    }
+                    runtimeParameters.VisXwindowMax = (double)((NumericUpDown)sender).Value;
+
+                    lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                    lctg.SetScriptTerminalData("VisXwindowMax", (double)numericUpDownVisXwindowMax.Value);
+
+                    break;
+
+            }
+        }
+
+        private void checkBoxVisPatCoarseAcceptThresholdEnable_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((CheckBox)sender).Name;
+            CogToolGroup lctg;
+            CogPMAlignTool myPMAlignTool;
+
+            // Update object members
+            switch (name)
+            {
+                case "checkBoxVisPatCoarseAcceptThreshold":
+
+                    if (mcjmAcq == null)
+                    {
+                        MessageBox.Show("Unable to read value from Vision System @any_numeric_ValueChanged", "Warning");
+                        ((CheckBox)sender).Checked = runtimeParameters.VisPatRunParamsCoarseAcceptThresholdChecked; //Restore value
+                        return;
+                    }
+
+                    try
+                    {
+                        lctg = (CogToolGroup)mcjmAcq.Job(mainForm.CogJobName).VisionTool;
+                        myPMAlignTool = (CogPMAlignTool)lctg.Tools["FindWrapperPatterns"];
+
+                        myPMAlignTool.RunParams.CoarseAcceptThresholdEnabled = ((CheckBox)sender).Enabled;
+                        runtimeParameters.VisPatRunParamsCoarseAcceptThresholdChecked = ((CheckBox)sender).Checked;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
+
+                    if (((CheckBox)sender).Checked)
+                    {
+                        numericUpDownVisPatCoarseAcceptThreshold.Enabled = true;
+                    }
+                    else
+                    {
+                        numericUpDownVisPatCoarseAcceptThreshold.Enabled = false;
+                    }
+                    break;
+            }
+        }
+
+        private void PatternParams_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                        saveParameters = true;
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+            }
+        }
+
+        /// <summary>
+        /// Check for F key presses
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+
+            bool handled = false;        // we haven't handled this key
+
+            if ((keyData == Keys.F5) && (mainForm.RecipeName != string.Empty) && (!mainForm.VisionOnline))
+            {
+                mainForm.RunQuickBuildJob();
+                handled = true;       // we handled the key press
+            }
+
+            return (handled || base.ProcessCmdKey(ref msg, keyData));
+        }
+
+        private void buttonManualTrigger_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                mainForm.RunQuickBuildJob();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void checkBoxEnablePatternClipping_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (checkBoxEnablePatternClipping.Checked)
+            {
+                numericUpDownVisXwindowMin.Enabled = true;
+                numericUpDownVisXwindowMax.Enabled = true;
+            }
+
+        }
+    }
+}

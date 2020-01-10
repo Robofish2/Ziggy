@@ -1,0 +1,312 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace AbbCom.Forms
+{
+    public partial class CnvSpdCtrl : Form
+    {
+        private string _r1BeltSpdCtrlHeader = "BeltSpdCtrl,1,3";
+        private string _r2BeltSpdCtrlHeader = "BeltSpdCtrl,2,4";
+        private string _r3BeltSpdCtrlHeader = "BeltSpdCtrl,1,3";
+        private string _r4BeltSpdCtrlHeader = "BeltSpdCtrl,2,4";
+
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+
+        public CnvSpdCtrl(MainForm mf, RuntimeParameters rp)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            runtimeParameters = rp;
+            restoreParameters = rp.ShallowCopy();
+
+        }
+
+        private void PickParams_Load(object sender, EventArgs e)
+        {
+
+            // Update Belt Speed controls
+            try
+            {
+                numericUpDownR1BeltspeedCtrlStart.Value = (decimal)runtimeParameters.R1BeltspeedCtrlStart;
+                numericUpDownR1BeltspeedCtrlStop.Value = (decimal)runtimeParameters.R1BeltspeedCtrlStop;
+                numericUpDownR1BeltspeedCtrlSlow.Value = (decimal)runtimeParameters.R1BeltspeedCtrlSlow;
+
+                numericUpDownR2BeltspeedCtrlStart.Value = (decimal)runtimeParameters.R2BeltspeedCtrlStart;
+                numericUpDownR2BeltspeedCtrlStop.Value = (decimal)runtimeParameters.R2BeltspeedCtrlStop;
+                numericUpDownR2BeltspeedCtrlSlow.Value = (decimal)runtimeParameters.R2BeltspeedCtrlSlow;
+
+                numericUpDownR3BeltspeedCtrlStart.Value = (decimal)runtimeParameters.R3BeltspeedCtrlStart;
+                numericUpDownR3BeltspeedCtrlStop.Value = (decimal)runtimeParameters.R3BeltspeedCtrlStop;
+                numericUpDownR3BeltspeedCtrlSlow.Value = (decimal)runtimeParameters.R3BeltspeedCtrlSlow;
+
+                numericUpDownR4BeltspeedCtrlStart.Value = (decimal)runtimeParameters.R4BeltspeedCtrlStart;
+                numericUpDownR4BeltspeedCtrlStop.Value = (decimal)runtimeParameters.R4BeltspeedCtrlStop;
+                numericUpDownR4BeltspeedCtrlSlow.Value = (decimal)runtimeParameters.R4BeltspeedCtrlSlow;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @PickParams_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+        private void any_numericR1BeltSpeedCtrl_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1BeltspeedCtrlStart;
+            arg2 = runtimeParameters.R1BeltspeedCtrlStop;
+            arg3 = runtimeParameters.R1BeltspeedCtrlSlow;
+            switch (name)
+            {
+                case "numericUpDownR1BeltspeedCtrlStart":
+                    runtimeParameters.R1BeltspeedCtrlStart = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1BeltspeedCtrlStart;
+                    goto Finish;
+                case "numericUpDownR1BeltspeedCtrlStop":
+                    runtimeParameters.R1BeltspeedCtrlStop = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1BeltspeedCtrlStop;
+                    goto Finish;
+                case "numericUpDownR1BeltspeedCtrlSlow":
+                    runtimeParameters.R1BeltspeedCtrlSlow = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1BeltspeedCtrlSlow;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + "0,0";
+
+            // Store message to object for recipe change
+            key = "R1BeltSpdCtrl";
+            header = _r1BeltSpdCtrlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.BeltSpeedCtrlMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+        }
+
+        private void any_numericR2BeltSpeedCtrl_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2BeltspeedCtrlStart;
+            arg2 = runtimeParameters.R2BeltspeedCtrlStop;
+            arg3 = runtimeParameters.R2BeltspeedCtrlSlow;
+            switch (name)
+            {
+                case "numericUpDownR2BeltspeedCtrlStart":
+                    runtimeParameters.R2BeltspeedCtrlStart = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2BeltspeedCtrlStart;
+                    goto Finish;
+                case "numericUpDownR2BeltspeedCtrlStop":
+                    runtimeParameters.R2BeltspeedCtrlStop = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2BeltspeedCtrlStop;
+                    goto Finish;
+                case "numericUpDownR2BeltspeedCtrlSlow":
+                    runtimeParameters.R2BeltspeedCtrlSlow = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2BeltspeedCtrlSlow;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + "0,0";
+
+            // Store message to object for recipe change
+            key = "R2BeltSpdCtrl";
+            header = _r2BeltSpdCtrlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.BeltSpeedCtrlMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+        }
+
+        private void any_numericR3BeltSpeedCtrl_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R3BeltspeedCtrlStart;
+            arg2 = runtimeParameters.R3BeltspeedCtrlStop;
+            arg3 = runtimeParameters.R3BeltspeedCtrlSlow;
+            switch (name)
+            {
+                case "numericUpDownR3BeltspeedCtrlStart":
+                    runtimeParameters.R3BeltspeedCtrlStart = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R3BeltspeedCtrlStart;
+                    goto Finish;
+                case "numericUpDownR3BeltspeedCtrlStop":
+                    runtimeParameters.R3BeltspeedCtrlStop = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R3BeltspeedCtrlStop;
+                    goto Finish;
+                case "numericUpDownR3BeltspeedCtrlSlow":
+                    runtimeParameters.R3BeltspeedCtrlSlow = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R3BeltspeedCtrlSlow;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + "0,0";
+
+            // Store message to object for recipe change
+            key = "R3BeltSpdCtrl";
+            header = _r3BeltSpdCtrlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.BeltSpeedCtrlMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+        }
+        private void any_numericR4BeltSpeedCtrl_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R4BeltspeedCtrlStart;
+            arg2 = runtimeParameters.R4BeltspeedCtrlStop;
+            arg3 = runtimeParameters.R4BeltspeedCtrlSlow;
+            switch (name)
+            {
+                case "numericUpDownR4BeltspeedCtrlStart":
+                    runtimeParameters.R4BeltspeedCtrlStart = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R4BeltspeedCtrlStart;
+                    goto Finish;
+                case "numericUpDownR4BeltspeedCtrlStop":
+                    runtimeParameters.R4BeltspeedCtrlStop = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R4BeltspeedCtrlStop;
+                    goto Finish;
+                case "numericUpDownR4BeltspeedCtrlSlow":
+                    runtimeParameters.R4BeltspeedCtrlSlow = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R4BeltspeedCtrlSlow;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + "0,0";
+
+            // Store message to object for recipe change
+            key = "R4BeltSpdCtrl";
+            header = _r4BeltSpdCtrlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.BeltSpeedCtrlMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            Close();
+        }
+
+        private void CnvSpdCtrl_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                    {
+                        saveParameters = true;
+                    }
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+
+                // Send recipe data to robots
+                mainForm.UpdateRobotMessages(1, restoreParameters);
+                mainForm.UpdateRobotMessages(2, restoreParameters);
+                mainForm.UpdateRobotMessages(3, restoreParameters);
+                mainForm.UpdateRobotMessages(4, restoreParameters);
+            }
+        }
+
+    }
+}

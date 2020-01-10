@@ -1,0 +1,19 @@
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\ResolveAssemblyReference.cache
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.ComputePointMainForm.resources
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.Properties.Resources.resources
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\GenerateResource.read.1.tlog
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\GenerateResource.write.1.tlog
+C:\CognexVisionPro\Projects\ComputePointAngle\bin\Release\ComputePointAngle.exe
+C:\CognexVisionPro\Projects\ComputePointAngle\bin\Release\ComputePointAngle.pdb
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.exe
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.pdb
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\bin\Release\ComputePointAngle.exe
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\bin\Release\ComputePointAngle.pdb
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\ResolveAssemblyReference.cache
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.ComputePointMainForm.resources
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.Properties.Resources.resources
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\GenerateResource.read.1.tlog
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\GenerateResource.write.1.tlog
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.exe
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Release\ComputePointAngle.pdb
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\bin\Release\ComputePointAngle.exe.config

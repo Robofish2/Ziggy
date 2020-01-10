@@ -1,0 +1,1018 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Linq;
+
+namespace AbbCom.Forms
+{
+    public partial class Tooling : Form
+    {
+
+        private string _r1Pk1Header = "Tooling,1,1";
+        private string _r1Pk2Header = "Tooling,1,2";
+        private string _r1Pk3Header = "Tooling,1,3";
+        private string _r1Pk4Header = "Tooling,1,4";
+        private string _r1PlHeader = "Tooling,1,0";
+
+        private string _r2Pk1Header = "Tooling,2,1";
+        private string _r2Pk2Header = "Tooling,2,2";
+        private string _r2Pk3Header = "Tooling,2,3";
+        private string _r2Pk4Header = "Tooling,2,4";
+        private string _r2PlHeader = "Tooling,2,0";
+
+        private string _r3Pk1Header = "Tooling,1,1";
+        private string _r3Pk2Header = "Tooling,1,2";
+        private string _r3Pk3Header = "Tooling,1,3";
+        private string _r3Pk4Header = "Tooling,1,4";
+        private string _r3PlHeader = "Tooling,1,0";
+
+        private string _r4Pk1Header = "Tooling,2,1";
+        private string _r4Pk2Header = "Tooling,2,2";
+        private string _r4Pk3Header = "Tooling,2,3";
+        private string _r4Pk4Header = "Tooling,2,4";
+        private string _r4PlHeader = "Tooling,2,0";
+
+
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+
+        EnableGroupBoxControls egbc;
+
+        public Tooling(MainForm mf, RuntimeParameters rp)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            runtimeParameters = rp;
+            restoreParameters = rp.ShallowCopy();
+
+            egbc = new EnableGroupBoxControls();
+
+        }
+
+        private void ToolingParams_Load(object sender, EventArgs e)
+        {
+
+            // Update R1 Tooling controls
+            try
+            {
+                numericUpDownR1Pk1ToolingX.Value = (decimal)runtimeParameters.R1Pk1ToolingX;
+                numericUpDownR1Pk1ToolingY.Value = (decimal)runtimeParameters.R1Pk1ToolingY;
+                numericUpDownR1Pk1ToolingZ.Value = (decimal)runtimeParameters.R1Pk1ToolingZ;
+                numericUpDownR1Pk1ToolingOrient.Value = (decimal)runtimeParameters.R1Pk1ToolingOrient;
+
+                numericUpDownR1Pk2ToolingX.Value = (decimal)runtimeParameters.R1Pk2ToolingX;
+                numericUpDownR1Pk2ToolingY.Value = (decimal)runtimeParameters.R1Pk2ToolingY;
+                numericUpDownR1Pk2ToolingZ.Value = (decimal)runtimeParameters.R1Pk2ToolingZ;
+                numericUpDownR1Pk2ToolingOrient.Value = (decimal)runtimeParameters.R1Pk2ToolingOrient;
+
+                numericUpDownR1Pk3ToolingX.Value = (decimal)runtimeParameters.R1Pk3ToolingX;
+                numericUpDownR1Pk3ToolingY.Value = (decimal)runtimeParameters.R1Pk3ToolingY;
+                numericUpDownR1Pk3ToolingZ.Value = (decimal)runtimeParameters.R1Pk3ToolingZ;
+                numericUpDownR1Pk3ToolingOrient.Value = (decimal)runtimeParameters.R1Pk3ToolingOrient;
+
+                numericUpDownR1Pk4ToolingX.Value = (decimal)runtimeParameters.R1Pk4ToolingX;
+                numericUpDownR1Pk4ToolingY.Value = (decimal)runtimeParameters.R1Pk4ToolingY;
+                numericUpDownR1Pk4ToolingZ.Value = (decimal)runtimeParameters.R1Pk4ToolingZ;
+                numericUpDownR1Pk4ToolingOrient.Value = (decimal)runtimeParameters.R1Pk4ToolingOrient;
+
+                numericUpDownR1PlToolingX.Value = (decimal)runtimeParameters.R1PlToolingX;
+                numericUpDownR1PlToolingY.Value = (decimal)runtimeParameters.R1PlToolingY;
+                numericUpDownR1PlToolingZ.Value = (decimal)runtimeParameters.R1PlToolingZ;
+                numericUpDownR1PlToolingOrient.Value = (decimal)runtimeParameters.R1PlToolingOrient;
+
+                // Update R2 Tooling controls
+                numericUpDownR2Pk1ToolingX.Value = (decimal)runtimeParameters.R2Pk1ToolingX;
+                numericUpDownR2Pk1ToolingY.Value = (decimal)runtimeParameters.R2Pk1ToolingY;
+                numericUpDownR2Pk1ToolingZ.Value = (decimal)runtimeParameters.R2Pk1ToolingZ;
+                numericUpDownR2Pk1ToolingOrient.Value = (decimal)runtimeParameters.R2Pk1ToolingOrient;
+
+                numericUpDownR2Pk2ToolingX.Value = (decimal)runtimeParameters.R2Pk2ToolingX;
+                numericUpDownR2Pk2ToolingY.Value = (decimal)runtimeParameters.R2Pk2ToolingY;
+                numericUpDownR2Pk2ToolingZ.Value = (decimal)runtimeParameters.R2Pk2ToolingZ;
+                numericUpDownR2Pk2ToolingOrient.Value = (decimal)runtimeParameters.R2Pk2ToolingOrient;
+
+                numericUpDownR2Pk3ToolingX.Value = (decimal)runtimeParameters.R2Pk3ToolingX;
+                numericUpDownR2Pk3ToolingY.Value = (decimal)runtimeParameters.R2Pk3ToolingY;
+                numericUpDownR2Pk3ToolingZ.Value = (decimal)runtimeParameters.R2Pk3ToolingZ;
+                numericUpDownR2Pk3ToolingOrient.Value = (decimal)runtimeParameters.R2Pk3ToolingOrient;
+
+                numericUpDownR2Pk4ToolingX.Value = (decimal)runtimeParameters.R2Pk4ToolingX;
+                numericUpDownR2Pk4ToolingY.Value = (decimal)runtimeParameters.R2Pk4ToolingY;
+                numericUpDownR2Pk4ToolingZ.Value = (decimal)runtimeParameters.R2Pk4ToolingZ;
+                numericUpDownR2Pk4ToolingOrient.Value = (decimal)runtimeParameters.R2Pk4ToolingOrient;
+
+                numericUpDownR2PlToolingX.Value = (decimal)runtimeParameters.R2PlToolingX;
+                numericUpDownR2PlToolingY.Value = (decimal)runtimeParameters.R2PlToolingY;
+                numericUpDownR2PlToolingZ.Value = (decimal)runtimeParameters.R2PlToolingZ;
+                numericUpDownR2PlToolingOrient.Value = (decimal)runtimeParameters.R2PlToolingOrient;
+
+                // Update Mass and IZ
+                numericUpDownR1ToolingMass.Value = (decimal)runtimeParameters.R1ToolingMass;
+                numericUpDownR1ToolingIZ.Value = (decimal)runtimeParameters.R1ToolingIZ;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @ToolingParams_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+        private void any_numericUpDownR1Pk1Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1Pk1ToolingX;
+            arg2 = runtimeParameters.R1Pk1ToolingY;
+            arg3 = runtimeParameters.R1Pk1ToolingZ;
+            arg4 = runtimeParameters.R1Pk1ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass;
+            arg6 = runtimeParameters.R1ToolingIZ;
+
+            switch (name)
+            {
+                case "numericUpDownR1Pk1ToolingX":
+                    runtimeParameters.R1Pk1ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1Pk1ToolingX;
+                    goto Finish;
+                case "numericUpDownR1Pk1ToolingY":
+                    runtimeParameters.R1Pk1ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1Pk1ToolingY;
+                    goto Finish;
+                case "numericUpDownR1Pk1ToolingZ":
+                    runtimeParameters.R1Pk1ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1Pk1ToolingZ;
+                    goto Finish;
+                case "numericUpDownR1Pk1ToolingOrient":
+                    runtimeParameters.R1Pk1ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R1Pk1ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R1 message to object for recipe change
+            key = "R1Pk1Header";
+            header = _r1Pk1Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3Pk1Header";
+            header = _r3Pk1Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+
+        }
+
+        private void any_numericUpDownR1Pk2Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1Pk2ToolingX;
+            arg2 = runtimeParameters.R1Pk2ToolingY;
+            arg3 = runtimeParameters.R1Pk2ToolingZ;
+            arg4 = runtimeParameters.R1Pk2ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass;
+            arg6 = runtimeParameters.R1ToolingIZ;
+
+            switch (name)
+            {
+                case "numericUpDownR1Pk2ToolingX":
+                    runtimeParameters.R1Pk2ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1Pk2ToolingX;
+                    goto Finish;
+                case "numericUpDownR1Pk2ToolingY":
+                    runtimeParameters.R1Pk2ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1Pk2ToolingY;
+                    goto Finish;
+                case "numericUpDownR1Pk2ToolingZ":
+                    runtimeParameters.R1Pk2ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1Pk2ToolingZ;
+                    goto Finish;
+                case "numericUpDownR1Pk2ToolingOrient":
+                    runtimeParameters.R1Pk2ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R1Pk2ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R1 message to object for recipe change
+            key = "R1Pk2Header";
+            header = _r1Pk2Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3Pk2Header";
+            header = _r3Pk2Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+
+        }
+
+        private void any_numericUpDownR1Pk3Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1Pk3ToolingX;
+            arg2 = runtimeParameters.R1Pk3ToolingY;
+            arg3 = runtimeParameters.R1Pk3ToolingZ;
+            arg4 = runtimeParameters.R1Pk3ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass;
+            arg6 = runtimeParameters.R1ToolingIZ;
+
+            switch (name)
+            {
+                case "numericUpDownR1Pk3ToolingX":
+                    runtimeParameters.R1Pk3ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1Pk3ToolingX;
+                    goto Finish;
+                case "numericUpDownR1Pk3ToolingY":
+                    runtimeParameters.R1Pk3ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1Pk3ToolingY;
+                    goto Finish;
+                case "numericUpDownR1Pk3ToolingZ":
+                    runtimeParameters.R1Pk3ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1Pk3ToolingZ;
+                    goto Finish;
+                case "numericUpDownR1Pk3ToolingOrient":
+                    runtimeParameters.R1Pk3ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R1Pk3ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R1 message to object for recipe change
+            key = "R1Pk3Header";
+            header = _r1Pk3Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3Pk3Header";
+            header = _r3Pk3Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+
+        }
+        private void any_numericUpDownR1Pk4Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1Pk4ToolingX;
+            arg2 = runtimeParameters.R1Pk4ToolingY;
+            arg3 = runtimeParameters.R1Pk4ToolingZ;
+            arg4 = runtimeParameters.R1Pk4ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass;
+            arg6 = runtimeParameters.R1ToolingIZ;
+
+            switch (name)
+            {
+                case "numericUpDownR1Pk4ToolingX":
+                    runtimeParameters.R1Pk4ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1Pk4ToolingX;
+                    goto Finish;
+                case "numericUpDownR1Pk4ToolingY":
+                    runtimeParameters.R1Pk4ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1Pk4ToolingY;
+                    goto Finish;
+                case "numericUpDownR1Pk4ToolingZ":
+                    runtimeParameters.R1Pk4ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1Pk4ToolingZ;
+                    goto Finish;
+                case "numericUpDownR1Pk4ToolingOrient":
+                    runtimeParameters.R1Pk4ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R1Pk4ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R1 message to object for recipe change
+            key = "R1Pk4Header";
+            header = _r1Pk4Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3Pk4Header";
+            header = _r3Pk4Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+        }
+
+        private void any_numericUpDownR1PlTooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1PlToolingX;
+            arg2 = runtimeParameters.R1PlToolingY;
+            arg3 = runtimeParameters.R1PlToolingZ;
+            arg4 = runtimeParameters.R1PlToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass;
+            arg6 = runtimeParameters.R1ToolingIZ;
+
+            switch (name)
+            {
+                case "numericUpDownR1PlToolingX":
+                    runtimeParameters.R1PlToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1PlToolingX;
+                    goto Finish;
+                case "numericUpDownR1PlToolingY":
+                    runtimeParameters.R1PlToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1PlToolingY;
+                    goto Finish;
+                case "numericUpDownR1PlToolingZ":
+                    runtimeParameters.R1PlToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1PlToolingZ;
+                    goto Finish;
+                case "numericUpDownR1PlToolingOrient":
+                    runtimeParameters.R1PlToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R1PlToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R1 message to object for recipe change
+            key = "R1PlHeader";
+            header = _r1PlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3PlHeader";
+            header = _r3PlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+        }
+
+        private void numericUpDownR1ToolingMass_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+
+            // Save in an unconventional way to reduce coding
+            runtimeParameters.R1ToolingMass = (double)((NumericUpDown)sender).Value;
+
+            // Update robots 1 and 3
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingX, null);
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingY, null);
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingZ, null);
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingOrient, null);
+
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingX, null);
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingY, null);
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingZ, null);
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingOrient, null);
+
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingX, null);
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingY, null);
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingZ, null);
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingOrient, null);
+
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingX, null);
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingY, null);
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingZ, null);
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingOrient, null);
+
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingX, null);
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingY, null);
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingZ, null);
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingOrient, null);
+
+            // Update robots 2 and 4
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingX, null);
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingY, null);
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingZ, null);
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingOrient, null);
+
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingX, null);
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingY, null);
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingZ, null);
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingOrient, null);
+
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingX, null);
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingY, null);
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingZ, null);
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingOrient, null);
+
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingX, null);
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingY, null);
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingZ, null);
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingOrient, null);
+
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingX, null);
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingY, null);
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingZ, null);
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingOrient, null);
+
+        }
+
+        private void numericUpDownR1ToolingIZ_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+
+            // Save in an unconventional way to reduce coding
+            runtimeParameters.R1ToolingIZ = (double)((NumericUpDown)sender).Value;
+
+            // Update robots 1 and 3
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingX, null);
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingY, null);
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingZ, null);
+            any_numericUpDownR1Pk1Tooling_ValueChanged(numericUpDownR1Pk1ToolingOrient, null);
+
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingX, null);
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingY, null);
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingZ, null);
+            any_numericUpDownR1Pk2Tooling_ValueChanged(numericUpDownR1Pk2ToolingOrient, null);
+
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingX, null);
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingY, null);
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingZ, null);
+            any_numericUpDownR1Pk3Tooling_ValueChanged(numericUpDownR1Pk3ToolingOrient, null);
+
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingX, null);
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingY, null);
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingZ, null);
+            any_numericUpDownR1Pk4Tooling_ValueChanged(numericUpDownR1Pk4ToolingOrient, null);
+
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingX, null);
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingY, null);
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingZ, null);
+            any_numericUpDownR1PlTooling_ValueChanged(numericUpDownR1PlToolingOrient, null);
+
+            // Update robots 2 and 4
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingX, null);
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingY, null);
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingZ, null);
+            any_numericUpDownR2Pk1Tooling_ValueChanged(numericUpDownR2Pk1ToolingOrient, null);
+
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingX, null);
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingY, null);
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingZ, null);
+            any_numericUpDownR2Pk2Tooling_ValueChanged(numericUpDownR2Pk2ToolingOrient, null);
+
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingX, null);
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingY, null);
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingZ, null);
+            any_numericUpDownR2Pk3Tooling_ValueChanged(numericUpDownR2Pk3ToolingOrient, null);
+
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingX, null);
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingY, null);
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingZ, null);
+            any_numericUpDownR2Pk4Tooling_ValueChanged(numericUpDownR2Pk4ToolingOrient, null);
+
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingX, null);
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingY, null);
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingZ, null);
+            any_numericUpDownR2PlTooling_ValueChanged(numericUpDownR2PlToolingOrient, null);
+
+        }
+
+        private void any_numericUpDownR2Pk1Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2Pk1ToolingX;
+            arg2 = runtimeParameters.R2Pk1ToolingY;
+            arg3 = runtimeParameters.R2Pk1ToolingZ;
+            arg4 = runtimeParameters.R2Pk1ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass; // Use R1's Mass
+            arg6 = runtimeParameters.R1ToolingIZ;   // Use R1's IZ
+
+            switch (name)
+            {
+                case "numericUpDownR2Pk1ToolingX":
+                    runtimeParameters.R2Pk1ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2Pk1ToolingX;
+                    goto Finish;
+                case "numericUpDownR2Pk1ToolingY":
+                    runtimeParameters.R2Pk1ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2Pk1ToolingY;
+                    goto Finish;
+                case "numericUpDownR2Pk1ToolingZ":
+                    runtimeParameters.R2Pk1ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2Pk1ToolingZ;
+                    goto Finish;
+                case "numericUpDownR2Pk1ToolingOrient":
+                    runtimeParameters.R2Pk1ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R2Pk1ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R2 message to object for recipe change
+            key = "R2Pk1Header";
+            header = _r2Pk1Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4Pk1Header";
+            header = _r4Pk1Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void any_numericUpDownR2Pk2Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2Pk2ToolingX;
+            arg2 = runtimeParameters.R2Pk2ToolingY;
+            arg3 = runtimeParameters.R2Pk2ToolingZ;
+            arg4 = runtimeParameters.R2Pk2ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass; // Use R1's Mass
+            arg6 = runtimeParameters.R1ToolingIZ;   // Use R1's IZ
+
+            switch (name)
+            {
+                case "numericUpDownR2Pk2ToolingX":
+                    runtimeParameters.R2Pk2ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2Pk2ToolingX;
+                    goto Finish;
+                case "numericUpDownR2Pk2ToolingY":
+                    runtimeParameters.R2Pk2ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2Pk2ToolingY;
+                    goto Finish;
+                case "numericUpDownR2Pk2ToolingZ":
+                    runtimeParameters.R2Pk2ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2Pk2ToolingZ;
+                    goto Finish;
+                case "numericUpDownR2Pk2ToolingOrient":
+                    runtimeParameters.R2Pk2ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R2Pk2ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R2 message to object for recipe change
+            key = "R2Pk2Header";
+            header = _r2Pk2Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4Pk2Header";
+            header = _r4Pk2Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+
+        }
+
+        private void any_numericUpDownR2Pk3Tooling_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2Pk3ToolingX;
+            arg2 = runtimeParameters.R2Pk3ToolingY;
+            arg3 = runtimeParameters.R2Pk3ToolingZ;
+            arg4 = runtimeParameters.R2Pk3ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass; // Use R1's Mass
+            arg6 = runtimeParameters.R1ToolingIZ;   // Use R1's IZ
+
+            switch (name)
+            {
+                case "numericUpDownR2Pk3ToolingX":
+                    runtimeParameters.R2Pk3ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2Pk3ToolingX;
+                    goto Finish;
+                case "numericUpDownR2Pk3ToolingY":
+                    runtimeParameters.R2Pk3ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2Pk3ToolingY;
+                    goto Finish;
+                case "numericUpDownR2Pk3ToolingZ":
+                    runtimeParameters.R2Pk3ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2Pk3ToolingZ;
+                    goto Finish;
+                case "numericUpDownR2Pk3ToolingOrient":
+                    runtimeParameters.R2Pk3ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R2Pk3ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R2 message to object for recipe change
+            key = "R2Pk3Header";
+            header = _r2Pk3Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4Pk3Header";
+            header = _r4Pk3Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void any_numericUpDownR2Pk4Tooling_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2Pk4ToolingX;
+            arg2 = runtimeParameters.R2Pk4ToolingY;
+            arg3 = runtimeParameters.R2Pk4ToolingZ;
+            arg4 = runtimeParameters.R2Pk4ToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass; // Use R1's Mass
+            arg6 = runtimeParameters.R1ToolingIZ;   // Use R1's IZ
+
+            switch (name)
+            {
+                case "numericUpDownR2Pk4ToolingX":
+                    runtimeParameters.R2Pk4ToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2Pk4ToolingX;
+                    goto Finish;
+                case "numericUpDownR2Pk4ToolingY":
+                    runtimeParameters.R2Pk4ToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2Pk4ToolingY;
+                    goto Finish;
+                case "numericUpDownR2Pk4ToolingZ":
+                    runtimeParameters.R2Pk4ToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2Pk4ToolingZ;
+                    goto Finish;
+                case "numericUpDownR2Pk4ToolingOrient":
+                    runtimeParameters.R2Pk4ToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R2Pk4ToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R2 message to object for recipe change
+            key = "R2Pk4Header";
+            header = _r2Pk4Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4Pk4Header";
+            header = _r4Pk4Header;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void any_numericUpDownR2PlTooling_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2PlToolingX;
+            arg2 = runtimeParameters.R2PlToolingY;
+            arg3 = runtimeParameters.R2PlToolingZ;
+            arg4 = runtimeParameters.R2PlToolingOrient;
+
+            arg5 = runtimeParameters.R1ToolingMass; // Use R1's Mass
+            arg6 = runtimeParameters.R1ToolingIZ;   // Use R1's IZ
+
+            switch (name)
+            {
+                case "numericUpDownR2PlToolingX":
+                    runtimeParameters.R2PlToolingX = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2PlToolingX;
+                    goto Finish;
+                case "numericUpDownR2PlToolingY":
+                    runtimeParameters.R2PlToolingY = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2PlToolingY;
+                    goto Finish;
+                case "numericUpDownR2PlToolingZ":
+                    runtimeParameters.R2PlToolingZ = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2PlToolingZ;
+                    goto Finish;
+                case "numericUpDownR2PlToolingOrient":
+                    runtimeParameters.R2PlToolingOrient = (double)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.R2PlToolingOrient;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store R2 message to object for recipe change
+            key = "R2PlHeader";
+            header = _r2PlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4PlHeader";
+            header = _r4PlHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.ToolingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            Close();
+        }
+        private void Tooling_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                    {
+                        saveParameters = true;
+                    }
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+
+                // Send recipe data to robots
+                mainForm.UpdateRobotMessages(1, restoreParameters);
+                mainForm.UpdateRobotMessages(2, restoreParameters);
+                mainForm.UpdateRobotMessages(3, restoreParameters);
+                mainForm.UpdateRobotMessages(4, restoreParameters);
+            }
+        }
+
+        private void buttonAdvanced_Click(object sender, EventArgs e)
+        {
+            egbc.ShowDialog();
+
+            if (egbc.ShowContols)
+            {
+                foreach (var nud in Controls.OfType<GroupBox>().SelectMany(groupBox => groupBox.Controls.OfType<NumericUpDown>()))
+                {
+                    nud.Enabled = true;
+                }
+            }
+            else
+            {
+                foreach (var nud in Controls.OfType<GroupBox>().SelectMany(groupBox => groupBox.Controls.OfType<NumericUpDown>()))
+                {
+                    nud.Enabled = false;
+                }
+            }
+
+            this.Invalidate(); // Force redraw
+        }
+
+
+    }
+}

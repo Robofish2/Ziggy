@@ -1,0 +1,856 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace AbbCom.Forms
+{
+    public partial class PickOffsets : Form 
+    {
+        public string R1Header { get { return _r1Header; } set { _r1Header = value; } }
+        private string _r1Header = "TrgtOffs,1,1";
+        public string R2Header { get { return _r2Header; } set { _r2Header = value; } }
+        private string _r2Header = "TrgtOffs,2,2";
+        
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+        MachineConfig machineParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+
+        public PickOffsets(MainForm mf, RuntimeParameters rp, MachineConfig mc) 
+        {
+            InitializeComponent();
+            mainForm = mf;
+            runtimeParameters = rp;
+            machineParameters = mc;
+            restoreParameters = rp.ShallowCopy();
+
+        }
+
+        private void PickOffsets_Load(object sender, EventArgs e)
+        {
+
+            // Update R1 controls
+            try
+            {
+                numericUpDownR1Pk1Xoffs.Value = (decimal)runtimeParameters.R1pk1Xoffs;
+                numericUpDownR1Pk1Yoffs.Value = (decimal)runtimeParameters.R1pk1Yoffs;
+                numericUpDownR1Pk1Zoffs.Value = (decimal)runtimeParameters.R1pk1Zoffs;
+                numericUpDownR1Pk1Angoffs.Value = (decimal)runtimeParameters.R1pk1Angoffs;
+
+                numericUpDownR1Pk2Xoffs.Value = (decimal)runtimeParameters.R1pk2Xoffs;
+                numericUpDownR1Pk2Yoffs.Value = (decimal)runtimeParameters.R1pk2Yoffs;
+                numericUpDownR1Pk2Zoffs.Value = (decimal)runtimeParameters.R1pk2Zoffs;
+                numericUpDownR1Pk2Angoffs.Value = (decimal)runtimeParameters.R1pk2Angoffs;
+
+                numericUpDownR1Pk3Xoffs.Value = (decimal)runtimeParameters.R1pk3Xoffs;
+                numericUpDownR1Pk3Yoffs.Value = (decimal)runtimeParameters.R1pk3Yoffs;
+                numericUpDownR1Pk3Zoffs.Value = (decimal)runtimeParameters.R1pk3Zoffs;
+                numericUpDownR1Pk3Angoffs.Value = (decimal)runtimeParameters.R1pk3Angoffs;
+
+                numericUpDownR1Pk4Xoffs.Value = (decimal)runtimeParameters.R1pk4Xoffs;
+                numericUpDownR1Pk4Yoffs.Value = (decimal)runtimeParameters.R1pk4Yoffs;
+                numericUpDownR1Pk4Zoffs.Value = (decimal)runtimeParameters.R1pk4Zoffs;
+                numericUpDownR1Pk4Angoffs.Value = (decimal)runtimeParameters.R1pk4Angoffs;
+
+                // Update R2 controls
+                numericUpDownR2Pk1Xoffs.Value = (decimal)runtimeParameters.R2pk1Xoffs;
+                numericUpDownR2Pk1Yoffs.Value = (decimal)runtimeParameters.R2pk1Yoffs;
+                numericUpDownR2Pk1Zoffs.Value = (decimal)runtimeParameters.R2pk1Zoffs;
+                numericUpDownR2Pk1Angoffs.Value = (decimal)runtimeParameters.R2pk1Angoffs;
+
+                numericUpDownR2Pk2Xoffs.Value = (decimal)runtimeParameters.R2pk2Xoffs;
+                numericUpDownR2Pk2Yoffs.Value = (decimal)runtimeParameters.R2pk2Yoffs;
+                numericUpDownR2Pk2Zoffs.Value = (decimal)runtimeParameters.R2pk2Zoffs;
+                numericUpDownR2Pk2Angoffs.Value = (decimal)runtimeParameters.R2pk2Angoffs;
+
+                numericUpDownR2Pk3Xoffs.Value = (decimal)runtimeParameters.R2pk3Xoffs;
+                numericUpDownR2Pk3Yoffs.Value = (decimal)runtimeParameters.R2pk3Yoffs;
+                numericUpDownR2Pk3Zoffs.Value = (decimal)runtimeParameters.R2pk3Zoffs;
+                numericUpDownR2Pk3Angoffs.Value = (decimal)runtimeParameters.R2pk3Angoffs;
+
+                numericUpDownR2Pk4Xoffs.Value = (decimal)runtimeParameters.R2pk4Xoffs;
+                numericUpDownR2Pk4Yoffs.Value = (decimal)runtimeParameters.R2pk4Yoffs;
+                numericUpDownR2Pk4Zoffs.Value = (decimal)runtimeParameters.R2pk4Zoffs;
+                numericUpDownR2Pk4Angoffs.Value = (decimal)runtimeParameters.R2pk4Angoffs;
+
+                // Update R3 controls
+                numericUpDownR3Pk1Xoffs.Value = (decimal)runtimeParameters.R3pk1Xoffs;
+                numericUpDownR3Pk1Yoffs.Value = (decimal)runtimeParameters.R3pk1Yoffs;
+                numericUpDownR3Pk1Zoffs.Value = (decimal)runtimeParameters.R3pk1Zoffs;
+                numericUpDownR3Pk1Angoffs.Value = (decimal)runtimeParameters.R3pk1Angoffs;
+
+                numericUpDownR3Pk2Xoffs.Value = (decimal)runtimeParameters.R3pk2Xoffs;
+                numericUpDownR3Pk2Yoffs.Value = (decimal)runtimeParameters.R3pk2Yoffs;
+                numericUpDownR3Pk2Zoffs.Value = (decimal)runtimeParameters.R3pk2Zoffs;
+                numericUpDownR3Pk2Angoffs.Value = (decimal)runtimeParameters.R3pk2Angoffs;
+
+                numericUpDownR3Pk3Xoffs.Value = (decimal)runtimeParameters.R3pk3Xoffs;
+                numericUpDownR3Pk3Yoffs.Value = (decimal)runtimeParameters.R3pk3Yoffs;
+                numericUpDownR3Pk3Zoffs.Value = (decimal)runtimeParameters.R3pk3Zoffs;
+                numericUpDownR3Pk3Angoffs.Value = (decimal)runtimeParameters.R3pk3Angoffs;
+
+                numericUpDownR3Pk4Xoffs.Value = (decimal)runtimeParameters.R3pk4Xoffs;
+                numericUpDownR3Pk4Yoffs.Value = (decimal)runtimeParameters.R3pk4Yoffs;
+                numericUpDownR3Pk4Zoffs.Value = (decimal)runtimeParameters.R3pk4Zoffs;
+                numericUpDownR3Pk4Angoffs.Value = (decimal)runtimeParameters.R3pk4Angoffs;
+
+                // Update R4 controls
+                numericUpDownR4Pk1Xoffs.Value = (decimal)runtimeParameters.R4pk1Xoffs;
+                numericUpDownR4Pk1Yoffs.Value = (decimal)runtimeParameters.R4pk1Yoffs;
+                numericUpDownR4Pk1Zoffs.Value = (decimal)runtimeParameters.R4pk1Zoffs;
+                numericUpDownR4Pk1Angoffs.Value = (decimal)runtimeParameters.R4pk1Angoffs;
+
+                numericUpDownR4Pk2Xoffs.Value = (decimal)runtimeParameters.R4pk2Xoffs;
+                numericUpDownR4Pk2Yoffs.Value = (decimal)runtimeParameters.R4pk2Yoffs;
+                numericUpDownR4Pk2Zoffs.Value = (decimal)runtimeParameters.R4pk2Zoffs;
+                numericUpDownR4Pk2Angoffs.Value = (decimal)runtimeParameters.R4pk2Angoffs;
+
+                numericUpDownR4Pk3Xoffs.Value = (decimal)runtimeParameters.R4pk3Xoffs;
+                numericUpDownR4Pk3Yoffs.Value = (decimal)runtimeParameters.R4pk3Yoffs;
+                numericUpDownR4Pk3Zoffs.Value = (decimal)runtimeParameters.R4pk3Zoffs;
+                numericUpDownR4Pk3Angoffs.Value = (decimal)runtimeParameters.R4pk3Angoffs;
+
+                numericUpDownR4Pk4Xoffs.Value = (decimal)runtimeParameters.R4pk4Xoffs;
+                numericUpDownR4Pk4Yoffs.Value = (decimal)runtimeParameters.R4pk4Yoffs;
+                numericUpDownR4Pk4Zoffs.Value = (decimal)runtimeParameters.R4pk4Zoffs;
+                numericUpDownR4Pk4Angoffs.Value = (decimal)runtimeParameters.R4pk4Angoffs;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @PickOffsets_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+
+        private void any_numericR1_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            int cup;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object member for Robot 1
+            cup = 1;
+            val1 = runtimeParameters.R1pk1Xoffs;
+            val2 = runtimeParameters.R1pk1Yoffs;
+            val3 = runtimeParameters.R1pk1Zoffs;
+            val4 = runtimeParameters.R1pk1Angoffs;
+            key = "R1pk1";
+            switch (name)
+            {
+                case "numericUpDownR1Pk1Xoffs":
+                    runtimeParameters.R1pk1Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R1pk1Xoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk1Yoffs":
+                    runtimeParameters.R1pk1Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R1pk1Yoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk1Zoffs":
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R1pk1Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R1pk1Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R1pk1Zoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk1Angoffs":
+                    runtimeParameters.R1pk1Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R1pk1Angoffs;
+                    goto Finish;
+            }
+
+            cup = 2;
+            val1 = runtimeParameters.R1pk2Xoffs;
+            val2 = runtimeParameters.R1pk2Yoffs;
+            val3 = runtimeParameters.R1pk2Zoffs;
+            val4 = runtimeParameters.R1pk2Angoffs;
+            key = "R1pk2";
+            switch (name)
+            {
+                case "numericUpDownR1Pk2Xoffs":
+                    runtimeParameters.R1pk2Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R1pk2Xoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk2Yoffs":
+                    runtimeParameters.R1pk2Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R1pk2Yoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk2Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R1pk2Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R1pk2Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R1pk2Zoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk2Angoffs":
+                    runtimeParameters.R1pk2Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R1pk2Angoffs;
+                    goto Finish;
+            }
+
+            cup = 3;
+            val1 = runtimeParameters.R1pk3Xoffs;
+            val2 = runtimeParameters.R1pk3Yoffs;
+            val3 = runtimeParameters.R1pk3Zoffs;
+            val4 = runtimeParameters.R1pk3Angoffs;
+            key = "R1pk3";
+            switch (name)
+            {
+                case "numericUpDownR1Pk3Xoffs":
+                    runtimeParameters.R1pk3Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R1pk3Xoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk3Yoffs":
+                    runtimeParameters.R1pk3Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R1pk3Yoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk3Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R1pk3Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R1pk3Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R1pk3Zoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk3Angoffs":
+                    runtimeParameters.R1pk3Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R1pk3Angoffs;
+                    goto Finish;
+            }
+
+            cup = 4;
+            val1 = runtimeParameters.R1pk4Xoffs;
+            val2 = runtimeParameters.R1pk4Yoffs;
+            val3 = runtimeParameters.R1pk4Zoffs;
+            val4 = runtimeParameters.R1pk4Angoffs;
+            key = "R1pk4";
+            switch (name)
+            {
+                case "numericUpDownR1Pk4Xoffs":
+                    runtimeParameters.R1pk4Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R1pk4Xoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk4Yoffs":
+                    runtimeParameters.R1pk4Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R1pk4Yoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk4Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R1pk4Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R1pk4Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R1pk4Zoffs;
+                    goto Finish;
+                case "numericUpDownR1Pk4Angoffs":
+                    runtimeParameters.R1pk4Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R1pk4Angoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += this.R1Header;
+            header += "," + cup;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PickOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+        }
+
+
+
+        private void any_numericR2_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            int cup;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object member for Robot 2
+            cup = 1;
+            val1 = runtimeParameters.R2pk1Xoffs;
+            val2 = runtimeParameters.R2pk1Yoffs;
+            val3 = runtimeParameters.R2pk1Zoffs;
+            val4 = runtimeParameters.R2pk1Angoffs;
+            key = "R2pk1";
+            switch (name)
+            {
+                case "numericUpDownR2Pk1Xoffs":
+                    runtimeParameters.R2pk1Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R2pk1Xoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk1Yoffs":
+                    runtimeParameters.R2pk1Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R2pk1Yoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk1Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R2pk1Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R2pk1Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R2pk1Zoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk1Angoffs":
+                    runtimeParameters.R2pk1Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R2pk1Angoffs;
+                    goto Finish;
+            }
+
+            cup = 2;
+            val1 = runtimeParameters.R2pk2Xoffs;
+            val2 = runtimeParameters.R2pk2Yoffs;
+            val3 = runtimeParameters.R2pk2Zoffs;
+            val4 = runtimeParameters.R2pk2Angoffs;
+            key = "R2pk2";
+            switch (name)
+            {
+                case "numericUpDownR2Pk2Xoffs":
+                    runtimeParameters.R2pk2Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R2pk2Xoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk2Yoffs":
+                    runtimeParameters.R2pk2Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R2pk2Yoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk2Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R2pk2Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R2pk2Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R2pk2Zoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk2Angoffs":
+                    runtimeParameters.R2pk2Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R2pk2Angoffs;
+                    goto Finish;
+            }
+
+            cup = 3;
+            val1 = runtimeParameters.R2pk3Xoffs;
+            val2 = runtimeParameters.R2pk3Yoffs;
+            val3 = runtimeParameters.R2pk3Zoffs;
+            val4 = runtimeParameters.R2pk3Angoffs;
+            key = "R2pk3";
+            switch (name)
+            {
+                case "numericUpDownR2Pk3Xoffs":
+                    runtimeParameters.R2pk3Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R2pk3Xoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk3Yoffs":
+                    runtimeParameters.R2pk3Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R2pk3Yoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk3Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R2pk3Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R2pk3Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R2pk3Zoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk3Angoffs":
+                    runtimeParameters.R2pk3Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R2pk3Angoffs;
+                    goto Finish;
+            }
+
+            cup = 4;
+            val1 = runtimeParameters.R2pk4Xoffs;
+            val2 = runtimeParameters.R2pk4Yoffs;
+            val3 = runtimeParameters.R2pk4Zoffs;
+            val4 = runtimeParameters.R2pk4Angoffs;
+            key = "R2pk4";
+            switch (name)
+            {
+                case "numericUpDownR2Pk4Xoffs":
+                    runtimeParameters.R2pk4Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R2pk4Xoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk4Yoffs":
+                    runtimeParameters.R2pk4Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R2pk4Yoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk4Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R2pk4Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R2pk4Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R2pk4Zoffs;
+                    goto Finish;
+                case "numericUpDownR2Pk4Angoffs":
+                    runtimeParameters.R2pk4Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R2pk4Angoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += this.R2Header;
+            header += "," + cup;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PickOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+        }
+
+        private void any_numericR3_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            int cup;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object member for Robot 3
+            cup = 1;
+            val1 = runtimeParameters.R3pk1Xoffs;
+            val2 = runtimeParameters.R3pk1Yoffs;
+            val3 = runtimeParameters.R3pk1Zoffs;
+            val4 = runtimeParameters.R3pk1Angoffs;
+            key = "R3pk1";
+            switch (name)
+            {
+                case "numericUpDownR3Pk1Xoffs":
+                    runtimeParameters.R3pk1Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R3pk1Xoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk1Yoffs":
+                    runtimeParameters.R3pk1Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R3pk1Yoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk1Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R3pk1Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R3pk1Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R3pk1Zoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk1Angoffs":
+                    runtimeParameters.R3pk1Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R3pk1Angoffs;
+                    goto Finish;
+            }
+
+            cup = 2;
+            val1 = runtimeParameters.R3pk2Xoffs;
+            val2 = runtimeParameters.R3pk2Yoffs;
+            val3 = runtimeParameters.R3pk2Zoffs;
+            val4 = runtimeParameters.R3pk2Angoffs;
+            key = "R3pk2";
+            switch (name)
+            {
+                case "numericUpDownR3Pk2Xoffs":
+                    runtimeParameters.R3pk2Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R3pk2Xoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk2Yoffs":
+                    runtimeParameters.R3pk2Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R3pk2Yoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk2Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R3pk2Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R3pk2Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R3pk2Zoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk2Angoffs":
+                    runtimeParameters.R3pk2Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R3pk2Angoffs;
+                    goto Finish;
+            }
+
+            cup = 3;
+            val1 = runtimeParameters.R3pk3Xoffs;
+            val2 = runtimeParameters.R3pk3Yoffs;
+            val3 = runtimeParameters.R3pk3Zoffs;
+            val4 = runtimeParameters.R3pk3Angoffs;
+            key = "R3pk3";
+            switch (name)
+            {
+                case "numericUpDownR3Pk3Xoffs":
+                    runtimeParameters.R3pk3Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R3pk3Xoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk3Yoffs":
+                    runtimeParameters.R3pk3Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R3pk3Yoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk3Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R3pk3Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R3pk3Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R3pk3Zoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk3Angoffs":
+                    runtimeParameters.R3pk3Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R3pk3Angoffs;
+                    goto Finish;
+            }
+
+            cup = 4;
+            val1 = runtimeParameters.R3pk4Xoffs;
+            val2 = runtimeParameters.R3pk4Yoffs;
+            val3 = runtimeParameters.R3pk4Zoffs;
+            val4 = runtimeParameters.R3pk4Angoffs;
+            key = "R3pk4";
+            switch (name)
+            {
+                case "numericUpDownR3Pk4Xoffs":
+                    runtimeParameters.R3pk4Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R3pk4Xoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk4Yoffs":
+                    runtimeParameters.R3pk4Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R3pk4Yoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk4Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R3pk4Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R3pk4Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R3pk4Zoffs;
+                    goto Finish;
+                case "numericUpDownR3Pk4Angoffs":
+                    runtimeParameters.R3pk4Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R3pk4Angoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += this.R1Header;
+            header += "," + cup;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PickOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+        }
+
+        private void any_numericR4_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            int cup;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object member for Robot 3
+            cup = 1;
+            val1 = runtimeParameters.R4pk1Xoffs;
+            val2 = runtimeParameters.R4pk1Yoffs;
+            val3 = runtimeParameters.R4pk1Zoffs;
+            val4 = runtimeParameters.R4pk1Angoffs;
+            key = "R4pk1";
+            switch (name)
+            {
+                case "numericUpDownR4Pk1Xoffs":
+                    runtimeParameters.R4pk1Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R4pk1Xoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk1Yoffs":
+                    runtimeParameters.R4pk1Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R4pk1Yoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk1Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R4pk1Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R4pk1Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R4pk1Zoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk1Angoffs":
+                    runtimeParameters.R4pk1Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R4pk1Angoffs;
+                    goto Finish;
+            }
+
+            cup = 2;
+            val1 = runtimeParameters.R4pk2Xoffs;
+            val2 = runtimeParameters.R4pk2Yoffs;
+            val3 = runtimeParameters.R4pk2Zoffs;
+            val4 = runtimeParameters.R4pk2Angoffs;
+            key = "R4pk2";
+            switch (name)
+            {
+                case "numericUpDownR4Pk2Xoffs":
+                    runtimeParameters.R4pk2Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R4pk2Xoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk2Yoffs":
+                    runtimeParameters.R4pk2Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R4pk2Yoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk2Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R4pk2Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R4pk2Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R4pk2Zoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk2Angoffs":
+                    runtimeParameters.R4pk2Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R4pk2Angoffs;
+                    goto Finish;
+            }
+
+            cup = 3;
+            val1 = runtimeParameters.R4pk3Xoffs;
+            val2 = runtimeParameters.R4pk3Yoffs;
+            val3 = runtimeParameters.R4pk3Zoffs;
+            val4 = runtimeParameters.R4pk3Angoffs;
+            key = "R4pk3";
+            switch (name)
+            {
+                case "numericUpDownR4Pk3Xoffs":
+                    runtimeParameters.R4pk3Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R4pk3Xoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk3Yoffs":
+                    runtimeParameters.R4pk3Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R4pk3Yoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk3Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R4pk3Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R4pk3Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R4pk3Zoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk3Angoffs":
+                    runtimeParameters.R4pk3Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R4pk3Angoffs;
+                    goto Finish;
+            }
+
+            cup = 4;
+            val1 = runtimeParameters.R4pk4Xoffs;
+            val2 = runtimeParameters.R4pk4Yoffs;
+            val3 = runtimeParameters.R4pk4Zoffs;
+            val4 = runtimeParameters.R4pk4Angoffs;
+            key = "R4pk4";
+            switch (name)
+            {
+                case "numericUpDownR4Pk4Xoffs":
+                    runtimeParameters.R4pk4Xoffs = (double)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R4pk4Xoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk4Yoffs":
+                    runtimeParameters.R4pk4Yoffs = (double)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R4pk4Yoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk4Zoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PkZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R4pk4Zoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PkZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R4pk4Zoffs = (double)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R4pk4Zoffs;
+                    goto Finish;
+                case "numericUpDownR4Pk4Angoffs":
+                    runtimeParameters.R4pk4Angoffs = (double)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R4pk4Angoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += this.R2Header;
+            header += "," + cup;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PickOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            Close();
+        }
+
+        private void PickOffsets_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                    {
+                        saveParameters = true;
+                    }
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                // Reload the recipe
+                bool success;
+                restoreParameters = mainForm.DeserializeRuntimeParamters(mainForm.RecipeName + ".xml", out success);
+                if (!success)
+                {
+                    MessageBox.Show("Error reading parameter file.", "Warning!");
+                    return;
+                }
+
+                // Send recipe data to robots
+                mainForm.UpdateRobotMessages(1, restoreParameters);
+                mainForm.UpdateRobotMessages(2, restoreParameters);
+                mainForm.UpdateRobotMessages(3, restoreParameters);
+                mainForm.UpdateRobotMessages(4, restoreParameters);
+            }
+        }
+
+        private void buttonAdvanced_Click(object sender, EventArgs e)
+        {
+
+            using (PickOffsetsAdvanced poa = new PickOffsetsAdvanced(mainForm, runtimeParameters, machineParameters))
+            {
+            poa.ShowDialog();
+            }
+        }
+    }
+}

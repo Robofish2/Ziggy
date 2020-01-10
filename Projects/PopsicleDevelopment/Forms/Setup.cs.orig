@@ -1,0 +1,102 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.IO;
+
+namespace AbbCom.Forms
+{
+    public partial class Setup : Form
+    {
+
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+
+        private bool saveParameters = false;
+        private string restoreRecipeName = string.Empty;
+        MachineConfig machineParameters;
+
+        public Setup(MainForm mf, RuntimeParameters rp, MachineConfig mc)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            machineParameters = mc;
+            runtimeParameters = rp;
+            restoreParameters = rp.ShallowCopy();
+        }
+
+        private void Setup_Load(object sender, EventArgs e)
+        {
+
+            // Populate the combobox
+            string[] files = Directory.GetFiles(mainForm.JobsPath, "*.vpp");
+            comboBoxAutoLoadRecipe.Items.Add("None");
+            foreach (string s in files)
+            {
+                comboBoxAutoLoadRecipe.Items.Add(Path.GetFileNameWithoutExtension(s));
+            }
+
+            comboBoxAutoLoadRecipe.Text = machineParameters.DefaultRecipe;
+            restoreRecipeName = comboBoxAutoLoadRecipe.Text;
+        }
+
+        private void Setup_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+                machineParameters.DefaultRecipe = restoreRecipeName;
+            }
+
+            bool success;
+
+            // Serialize to update machine parameters;
+            machineParameters.SerializeMachineConfigParameters(machineParameters, out success);
+            if (!success) { Environment.Exit(0); }
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+
+            // Verify the recipe files exists
+            if (comboBoxAutoLoadRecipe.Text != "None")
+            {
+                if (!System.IO.File.Exists(string.Concat(mainForm.JobsPath, comboBoxAutoLoadRecipe.Text, ".xml")))
+                {
+                    MessageBox.Show("Recipe File does not exist.", "Warning!");
+                    comboBoxAutoLoadRecipe.Text = restoreRecipeName;
+                    return;
+                }
+                if (!System.IO.File.Exists(string.Concat(mainForm.JobsPath, comboBoxAutoLoadRecipe.Text, ".vpp")))
+                {
+                    MessageBox.Show("QuickBuild File does not exist.", "Warning!");
+                    comboBoxAutoLoadRecipe.Text = restoreRecipeName;
+                    return;
+                }
+            }
+
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void comboBoxAutoLoadRecipe_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            machineParameters.DefaultRecipe = comboBoxAutoLoadRecipe.Text;
+        }
+    }
+}

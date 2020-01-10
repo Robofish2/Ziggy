@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AbbCom.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="R1ListenPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1776</Value>
+    </Setting>
+    <Setting Name="R2ListenPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1777</Value>
+    </Setting>
+    <Setting Name="R3ListenPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1778</Value>
+    </Setting>
+    <Setting Name="R4ListenPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1779</Value>
+    </Setting>
+    <Setting Name="R1ServerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">R1</Value>
+    </Setting>
+    <Setting Name="R2ServerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">R2</Value>
+    </Setting>
+    <Setting Name="R3ServerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">R3</Value>
+    </Setting>
+    <Setting Name="R4ServerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">R4</Value>
+    </Setting>
+    <Setting Name="SendHeartbeat" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="HeartbeatFrequency" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="VisionItemIDLimit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

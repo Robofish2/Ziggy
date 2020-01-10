@@ -1,0 +1,760 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Utilities</name>
+    </assembly>
+    <members>
+        <member name="T:XmlClientData">
+            <summary>
+            Struct that contains setup info.
+            </summary>
+        </member>
+        <member name="F:XmlClientData.XmlFileName">
+            <summary>
+            Client filename
+            </summary>
+        </member>
+        <member name="F:XmlClientData.ClientIPAddr">
+            <summary>
+            Client IP address (information purposes only)
+            </summary>
+        </member>
+        <member name="F:XmlClientData.ListenPort">
+            <summary>
+            Client port number
+            </summary>
+        </member>
+        <member name="T:XmlClient">
+            <summary>
+            Class used to process the Client xml file
+            </summary>
+        </member>
+        <member name="M:XmlClient.ReadXml">
+            <summary>
+            Method to read Client xml file
+            </summary>
+        </member>
+        <member name="M:XmlClient.WriteXml">
+            <summary>
+            Method to read Client xml file 
+            </summary>
+        </member>
+        <member name="M:XmlClient.CreateXml(System.String)">
+            <summary>
+            Method to create a Client xml file.
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="T:XmlServerData">
+            <summary>
+            Struct that contains setup info.
+            </summary>
+        </member>
+        <member name="F:XmlServerData.XmlFileName">
+            <summary>
+            Server xml filename
+            </summary>
+        </member>
+        <member name="F:XmlServerData.ClientIPAddr">
+            <summary>
+            Server IP address for client
+            </summary>
+        </member>
+        <member name="F:XmlServerData.ListenPort">
+            <summary>
+            Server Listen port
+            </summary>
+        </member>
+        <member name="T:XmlServer">
+            <summary>
+            Class used to process the Server xml file
+            </summary>
+        </member>
+        <member name="M:XmlServer.ReadXml">
+            <summary>
+            Method to read Server xml file
+            </summary>
+        </member>
+        <member name="M:XmlServer.WriteXml">
+            <summary>
+            Method to read Server xml file 
+            </summary>
+        </member>
+        <member name="M:XmlServer.CreateXml(System.String)">
+            <summary>
+            Method to create a Client xml file
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="T:Maf.Tools.DiskLogger">
+            <summary>
+            Class used to log data to the disk.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.DiskLogger.LogData(System.Boolean,System.String)">
+            <summary>
+            Log data to a file.  File name is date encoded yyyyMMdd.
+            Callers should lock the m_LockObject object before calling this function.
+            </summary>
+            <param name="tmp"> Not used.</param>
+            <param name="data"> Data to log. </param>
+        </member>
+        <member name="M:Maf.Tools.DiskLogger.LogData(System.Boolean,System.String,System.String)">
+            <summary>
+                Log data.
+                Callers should lock the m_LockObject object before calling this function.
+            </summary>
+            <param name="writeHeader">
+                Header to write. Header info is read from \log\log_header.txt file. 
+            </param>
+            <param name="prefix">
+                Prefix to write to file title.
+            </param>
+            <param name="data">
+                The data to write.
+            </param>
+        </member>
+        <member name="M:Maf.Tools.DiskLogger.WriteHeader">
+            <summary>
+            Read from the 'header.txt' file and write Header information to the log file.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.DiskLogger.ReportInfo(System.String)">
+            <summary>
+            Output informational message
+            </summary>
+            <param name="message">Informational message</param>
+        </member>
+        <member name="M:Maf.Tools.DiskLogger.ReportError(System.Exception)">
+            <summary>
+            Output informational message
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.DiskLogger.ReportError(System.String)">
+            <summary>
+            Output informational message
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.Client">
+            <summary>
+            Class used to send messages to a Server.
+            <para>
+            Step1: Subscribe to Client events in target class constructor, i.e:
+            </para>
+            <para>
+            myClient.ClientStatusMessageUpdate +=...
+            </para>
+            <para>
+            myClient.ClientTCP_MessageUpdate +=...
+            </para>
+            <para>
+            myClient.ClientConnected +=...
+            </para>
+            <para>
+            Step2: Set the Client object properties i.e: (Code in step 2 and 3 can be placed in a form load method)
+            </para>
+             <para>
+             myClient.ServerIPaddress = XmlData.ServerIPAddr;
+             </para>
+             <para>
+             myClient.ServerPort = XmlData.ServerPort;
+            </para>
+            <para>
+            Step3: Start the Client by:
+            </para>
+            <para>
+            myClient.StartClient()
+            </para>
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Client.OnClientStatusMessageUpdate(System.String)">
+            <summary>
+            Method to fire event to subscribers to update a status message.
+            </summary>
+            <param name="s">Text message.</param>
+        </member>
+        <member name="M:Maf.Tools.Client.OnClientTCP_MessageUpdate(System.String)">
+            <summary>
+            Method to fire event to subscribers so the TCP/IP message can be processed.
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:Maf.Tools.Client.OnClientConnected(System.Boolean)">
+            <summary>
+            Method to fire event to subscribers. Subscriber can read the Client.Connected property
+            to update a control.
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="M:Maf.Tools.Client.StopClient">
+            <summary>
+            Method to stop the Client
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Client.SendMessage(System.Boolean,System.String,System.String[])">
+            <summary>
+            Composes a message and place in the queue for processing.
+            </summary>
+            <param name="showError"></param>
+            <param name="msg"></param>
+            <param name="parms"></param>
+            <remarks></remarks>
+            <returns>Operator response code.</returns>
+        </member>
+        <member name="M:Maf.Tools.Client.ClientHandler">
+            <summary>
+            Method run as a thread to send Client messages
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Client.MessageFilter(System.String)">
+            <summary>
+            Replace the non printable characters with human readable text.
+            </summary>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Client.StartClient">
+            <summary>
+            Method used to start the Client Handler thread.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "E:Maf.Tools.Client.ClientStatusMessageUpdate" -->
+        <member name="E:Maf.Tools.Client.ClientTCP_MessageUpdate">
+            <summary>
+            Custom Event Handler to send TCP/IP message to subscribers.
+            </summary>
+        </member>
+        <member name="E:Maf.Tools.Client.ClientConnected">
+            <summary>
+            Custom Event Handler to inform subscribers when the Connected propery changes.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.Connected">
+            <summary>
+             Client Connected Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.ServerPort">
+            <summary>
+             Server Port Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.ServerIPaddress">
+            <summary>
+             Server IP Address Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.Response">
+            <summary>
+             Client Response Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.DefaultResponse">
+            <summary>
+             Client Default Response Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.STX">
+            <summary>
+             Client Start of Text Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.ETX">
+            <summary>
+             Client End of Text Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.Affix">
+            <summary>
+             Indicates that STX and ETX should be used on message transactions.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.Delim">
+            <summary>
+             Message delimiter.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.Terminator">
+            <summary>
+             Client Terminator Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.ClientStopped">
+            <summary>
+             Client Stopped Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Client.ReceiveTimeout">
+            <summary>
+             Message receive timeout Property.
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.ClientCustomEventArgs">
+            <summary>
+            EventArgs derived class to hold Custom Event Arg data
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.ClientCustomEventArgs.#ctor">
+            <summary>
+            Constructors.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.ClientCustomEventArgs.#ctor(System.String)">
+            <summary>
+            Client Custom Event args for type string
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:Maf.Tools.ClientCustomEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Client Custom Event args for type bool
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="P:Maf.Tools.ClientCustomEventArgs.Message">
+            <summary>
+             Client Message Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.ClientCustomEventArgs.Connected">
+            <summary>
+             Client Connected Property.
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.Server">
+            <summary>
+            Class used to process messages from a Client.
+            <para>
+            Step1: Subscribe to Server events in target class constructor, i.e:
+            </para>
+            <para>
+            myServer.ServerStatusMessageUpdate +=...
+            </para>
+            <para>
+            myServer.ServerTCP_MessageUpdate +=...
+            </para>
+            <para>
+            myServer.ServerConnected +=...
+            </para>
+            <para>
+            <para>
+            Step2: Set the Server object properties i.e: (Code in step 2 and 3 can be placed in a form load method)
+            </para>
+             <para>
+             myServer.ClientIPaddress = XmlData.ClientIPAddr;
+             </para>
+             <para>
+             myServer.ListenPort = XmlData.ListenPort;
+            </para>
+            Step3: Start the server by:
+            </para>
+            <para>
+            myServer.StartServer()
+            </para>
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Server.StopServer">
+            <summary>
+            Method to stop the Server.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Server.OnServerStatusMessageUpdate(System.String)">
+            <summary>
+            Method to fire event to subscribers to update a status message.
+            </summary>
+            <param name="s">The text message.</param>
+        </member>
+        <member name="M:Maf.Tools.Server.OnServerTCP_MessageUpdate(System.String)">
+            <summary>
+            Method to fire event to subscribers so the TCP/IP message can be processed.
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:Maf.Tools.Server.OnServerConnected(System.Boolean)">
+            <summary>
+            Method to fire event to subscribers. Subscriber can read the Server.Connected property
+            to update a control.
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="M:Maf.Tools.Server.ServerHandler">
+            <summary>
+             Method run as a thread to receive Client messages.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Server.MessageFilter(System.String)">
+            <summary>
+            Replace the non printable characters with human readable text.
+            </summary>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Server.StartServer">
+            <summary>
+            Method used to start the Server Handler thread.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Server.SendMessage(System.Boolean,System.String,System.String[])">
+            <summary>
+            Composes a message and place in the queue for processing.
+            </summary>
+            <param name="showError"></param>
+            <param name="msg"></param>
+            <param name="parms"></param>
+            <remarks></remarks>
+            <returns>Operator response code.</returns>
+        </member>
+        <member name="E:Maf.Tools.Server.ServerStatusMessageUpdate">
+            <summary>
+            Custom Event Handler to send text message to subscribers.
+            Step1:
+             Create a Server object i.e. myServer = new Server();
+            Step2: 
+             Subscribe to the event by placing the following statement in the target class constructor:
+             myServer.ServerMessageUpdate +=new EventHandler|ServerCustomEventArgs|(Server_ServerMessageUpdate);
+            Step3:
+             Add the following method to the target class:
+             void Server_ServerMessageEvent(object sender, ServerCustomEventArgs args)
+             {
+               textBox1.Text = args.Message; // Or whatever control to update.
+             }
+             </summary>
+        </member>
+        <member name="E:Maf.Tools.Server.ServerTCP_MessageUpdate">
+            <summary>
+            Custom Event Handler to send TCP/IP message to subscribers.
+            </summary>
+        </member>
+        <member name="E:Maf.Tools.Server.ServerConnected">
+            <summary>
+            Custom Event Handler to inform subscribers when the Connected propery changes.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.Connected">
+            <summary>
+             Server Connected Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.Response">
+            <summary>
+             Server Response Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.DefaultResponse">
+            <summary>
+             Server Default Response Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.ListenPort">
+            <summary>
+             Server Port Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.ClientIPaddress">
+            <summary>
+             Client IP Address Property for informational purposes only.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.ServerStopped">
+            <summary>
+             Server Stopped Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.ReceiveTimeout">
+            <summary>
+             Message receive timeout Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.STX">
+            <summary>
+             Server Start of Text Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.ETX">
+            <summary>
+             Server End of Text Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.Affix">
+            <summary>
+             Indicates that STX and ETX should be used on message transactions.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.Delim">
+            <summary>
+             Message delimiter.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Server.Terminator">
+            <summary>
+             Server Terminator Property.
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.ServerCustomEventArgs">
+            <summary>
+            EventArgs derived class to hold Custom Event Arg data
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.ServerCustomEventArgs.#ctor">
+            <summary>
+            Constructors.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.ServerCustomEventArgs.#ctor(System.String)">
+            <summary>
+            Server Event args for type string
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:Maf.Tools.ServerCustomEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Server Event args for type bool
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="P:Maf.Tools.ServerCustomEventArgs.Message">
+            <summary>
+             Server Message Property.
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.ServerCustomEventArgs.Connected">
+            <summary>
+             Server Connected Property.
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.Popup">
+            <summary>
+            Static class designed to Pop up a modeless message window.
+            <example> 
+            </example>
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Popup.Close">
+            <summary>
+            Method to close the Popup window
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Popup.Hide">
+            <summary>
+            Method to hide the Popup window
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Popup.Message">
+            <summary>
+            Method to popup a modeless message window with the 'Working...' default string
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Popup.Message(System.String)">
+            <summary>
+            Method to popup a modeless message window with custom  string
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:Maf.Tools.Popup.PixelLength(System.Windows.Forms.Label,System.String,System.Drawing.Font)">
+            <summary>
+            Compute the text string length in pixels.
+            </summary>
+            <param name="label"></param>
+            <param name="text"></param>
+            <param name="thisFont"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Maf.Tools.Popup.PopupForm">
+            <summary>
+            Property to hold the Form instance
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Popup.PopupPanel">
+            <summary>
+            Property to hold the Panel instance
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Popup.PopupLabel">
+            <summary>
+            Property to hold the Label instance
+            </summary>
+        </member>
+        <member name="P:Maf.Tools.Popup.PopupFormActive">
+            <summary>
+            Property to hold the Active state
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.Utilities">
+            <summary>
+            Static Utility class to hold worker methods for common tasks.
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Utilities.RuntimeError(System.Windows.Forms.MessageBoxButtons,System.Int32,System.String)">
+             <summary>
+              Runtime error handler, similar to Adept's rn.error routine.'
+              </summary>
+              <param name="buttons">MessageBoxButtons enum</param>
+              <param name="errCode">Optional error code (could be used as a database lookup value to get a mesage)</param>
+              <param name="errMsg">String error message to display</param>
+              <returns>OperatorResponse enum</returns>
+              <example>
+              Usage example:
+                string errMsg="Error test";
+                // Initialize the return value
+                OperatorResponse error = OperatorResponse.Success
+            
+                error = Utilities.RuntimeError(MessageBoxButtons.RetryCancel, 0, errMsg);
+                if (error == OperatorResponse.Abort) { return error; }
+             </example>
+        </member>
+        <member name="M:Maf.Tools.Utilities.IsProcessRunning(System.String)">
+            <summary>
+            Determine if a process is running. If it is desired to kill the process use:
+            <para>Utilities.ProcessName[0].Kill();</para>
+            <para>Utilities.ProcessName[0].Dispose();</para>
+            </summary>
+            <param name="processName">Name of process without extension</param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.IsThisProcessRunning">
+            <summary>
+            Determine if current running process is active.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.Sleep(System.Int32)">
+            <summary>
+            Put this thread to sleep for desired time in milliseconds.
+            </summary>
+            <param name="milliseconds"></param>
+        </member>
+        <member name="M:Maf.Tools.Utilities.ReadFile(System.String,System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+             Read an Ascii text file.
+            </summary>
+            <param name="path">Directory Path</param>
+            <param name="file">Filename</param>
+            <param name="programs"> List of strings to hold the records</param>
+            <remarks>Writes the List View contents to the ProgramLauncher.txt file.</remarks>
+        </member>
+        <member name="M:Maf.Tools.Utilities.WriteFile(System.String,System.String,System.String[])">
+            <summary>
+             Write an array of records to an Ascii text file
+             </summary>
+             <param name="dir">Directory Path</param>
+             <param name="file">Filename</param>
+             <param name="record">string array of records to write</param>
+             <remarks>Writes an ASCII text file to disk.</remarks>
+        </member>
+        <member name="M:Maf.Tools.Utilities.IsFileInUse(System.String)">
+            <summary>
+            Canned routine from the net to check for file in use.
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.AreYouSure">
+            <summary>
+            Method used to popup an are you sure window.
+            </summary>
+            <remarks>Returns DiaglogResult type</remarks>
+        </member>
+        <member name="M:Maf.Tools.Utilities.CleanDirectory(System.String,System.Int32,System.String)">
+            <summary>
+            Determine to delete the oldest files based on the number 
+            of files to collect in a directory. When this program is called it will 
+            delete the oldest files and keep the number of desired files in the directory.
+            It will self clean the directory.
+            Parameters:
+              path:
+                Path of the desired directory.
+              filesToKeep:
+                Number of files to keep in the directory.
+              fileSpec:
+                The file specification. i.e. *.tif
+            </summary>
+        </member>
+        <member name="M:Maf.Tools.Utilities.ReplaceTextInFile(System.String,System.String,System.String)">
+            <summary>
+            Replaces text in a file.
+            </summary>
+            <param name="filePath">Path of the text file.</param>
+            <param name="searchText">Text to search for.</param>
+            <param name="replaceText">Text to replace the search text.</param>
+        </member>
+        <member name="M:Maf.Tools.Utilities.HasCapitals(System.String)">
+            <summary>
+            Determine if any character has an upper case.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.HasCapitals(System.String,System.Int32@)">
+            <summary>
+            Determine if any character has an upper case. Get the character position of first occurance.
+            </summary>
+            <param name="text"></param>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.IsAllUppercase(System.String)">
+            <summary>
+            Determine if a string is all uppercase.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.IsAllLowercase(System.String)">
+            <summary>
+            Determine if a string is all lowercase.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.CheckAlphaNumeric(System.String)">
+            <summary>
+            Check for alphanumerical data.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Maf.Tools.Utilities.CheckAlphaNumeric(System.String,System.String)">
+            <summary>
+            Check for alphanumerical data, optionally accept special characters.
+            </summary>
+            <param name="str"></param>
+            <param name="specialChars"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Maf.Tools.Utilities.ProcessName">
+            <summary>
+            Process name property.
+            </summary>
+        </member>
+        <member name="T:Maf.Tools.Utilities.OperatorResponse">
+            <summary>
+             Operator response codes.
+            </summary>
+        </member>
+        <member name="F:Maf.Tools.Utilities.OperatorResponse.Success">
+            <summary>
+            Operator selection for accepting operation
+            </summary>
+        </member>
+        <member name="F:Maf.Tools.Utilities.OperatorResponse.Retry">
+            <summary>
+            Operator selection for retry
+            </summary>
+        </member>
+        <member name="F:Maf.Tools.Utilities.OperatorResponse.Skip">
+            <summary>
+            Operator selection for skipping
+            </summary>
+        </member>
+        <member name="F:Maf.Tools.Utilities.OperatorResponse.No">
+            <summary>
+            Operator selection for not accepting
+            </summary>
+        </member>
+        <member name="F:Maf.Tools.Utilities.OperatorResponse.Abort">
+            <summary>
+            Operator selection for aborting
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,573 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace AbbCom.Forms
+{
+    public partial class MotionAppDep : Form
+    {
+
+        //Pick
+        string[] _pkAppKey = { "R1pkApp", "R2pkApp", "R3pkApp", "R4pkApp" };
+        string[] _pkAppHeader = { "RobMotionApp,1,1", "RobMotionApp,2,2", "RobMotionApp,1,1", "RobMotionApp,2,2" };
+        string[] _pkPickKey = { "R1pkPick", "R2pkPick", "R3pkPick", "R4pkPick" };
+        string[] _pkPickHeader = { "RobMotionDown,1,1", "RobMotionDown,2,2", "RobMotionDown,1,1", "RobMotionDown,2,2" };
+        string[] _pkDepKey = { "R1pkDep", "R2pkDep", "R3pkDep", "R4pkDep" };
+        string[] _pkDepHeader = { "RobMotionDep,1,1", "RobMotionDep,2,2", "RobMotionDep,1,1", "RobMotionDep,2,2" };
+
+        //Place
+        string[] _plAppKey = { "R1plApp", "R2plApp", "R3plApp", "R4plApp" };
+        string[] _plAppHeader = { "RobMotionApp,1,3", "RobMotionApp,2,4", "RobMotionApp,1,3", "RobMotionApp,2,4" };
+        string[] _plPlaceKey = { "R1plPlace", "R2plPlace", "R3plPlace", "R4plPlace" };
+        string[] _plPlaceHeader = { "RobMotionDown,1,3", "RobMotionDown,2,4", "RobMotionDown,1,3", "RobMotionDown,2,4" };
+        string[] _plDepKey = { "R1plDep", "R2plDep", "R3plDep", "R4plDep" };
+        string[] _plDepHeader = { "RobMotionDep,1,3", "RobMotionDep,2,4", "RobMotionDep,1,3", "RobMotionDep,2,4" };
+
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+
+        public MotionAppDep(MainForm mf, RuntimeParameters rp)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            runtimeParameters = rp;
+            restoreParameters = rp.ShallowCopy();
+
+        }
+
+        private void MotionAppDep_Load(object sender, EventArgs e)
+        {
+
+            // Update Motion Pick controls
+            try
+            {
+                numericUpDownPkAppAccel.Value = runtimeParameters.PkAppAccel;
+                numericUpDownPkPickAccel.Value = runtimeParameters.PkPickAccel;
+                numericUpDownPkDepAccel.Value = runtimeParameters.PkDepAccel;
+                numericUpDownPkAppRamp.Value = runtimeParameters.PkAppRamp;
+                numericUpDownPkPickRamp.Value = runtimeParameters.PkPickRamp;
+                numericUpDownPkDepRamp.Value = runtimeParameters.PkDepRamp;
+                numericUpDownPkAppHeight.Value = runtimeParameters.PkAppHeight;
+                numericUpDownPkDepHeight.Value = runtimeParameters.PkDepHeight;
+                numericUpDownPkAppZone.Value = runtimeParameters.PkAppZone;
+                numericUpDownPkDepZone.Value = runtimeParameters.PkDepZone;
+                numericUpDownPkAppLinearSpeed.Value = Math.Max(runtimeParameters.PkAppLinearSpeed, numericUpDownPkAppLinearSpeed.Minimum);
+                numericUpDownPkPickLinearSpeed.Value = Math.Max(runtimeParameters.PkPickLinearSpeed, numericUpDownPkPickLinearSpeed.Minimum);
+                numericUpDownPkDepLinearSpeed.Value = Math.Max(runtimeParameters.PkDepLinearSpeed, numericUpDownPkDepLinearSpeed.Minimum);
+                numericUpDownPkAppRotationSpeed.Value = Math.Max(runtimeParameters.PkAppRotationSpeed, numericUpDownPkAppRotationSpeed.Minimum);
+                numericUpDownPkPickRotationSpeed.Value = Math.Max(runtimeParameters.PkPickRotationSpeed, numericUpDownPkPickRotationSpeed.Minimum);
+                numericUpDownPkDepRotationSpeed.Value = Math.Max(runtimeParameters.PkDepRotationSpeed, numericUpDownPkDepRotationSpeed.Minimum);
+
+                // Update Motion Place controls
+                numericUpDownPlAppAccel.Value = runtimeParameters.PlAppAccel;
+                numericUpDownPlPlaceAccel.Value = runtimeParameters.PlPlaceAccel;
+                numericUpDownPlDepAccel.Value = runtimeParameters.PlDepAccel;
+                numericUpDownPlAppRamp.Value = runtimeParameters.PlAppRamp;
+                numericUpDownPlPlaceRamp.Value = runtimeParameters.PlPlaceRamp;
+                numericUpDownPlDepRamp.Value = runtimeParameters.PlDepRamp;
+                numericUpDownPlAppHeight.Value = runtimeParameters.PlAppHeight;
+                numericUpDownPlDepHeight.Value = runtimeParameters.PlDepHeight;
+                numericUpDownPlAppZone.Value = runtimeParameters.PlAppZone;
+                numericUpDownPlDepZone.Value = runtimeParameters.PlDepZone;
+                numericUpDownPlAppLinearSpeed.Value = Math.Max(runtimeParameters.PlAppLinearSpeed, numericUpDownPlAppLinearSpeed.Minimum);
+                numericUpDownPlPlaceLinearSpeed.Value = Math.Max(runtimeParameters.PlPlaceLinearSpeed, numericUpDownPlPlaceLinearSpeed.Minimum);
+                numericUpDownPlDepLinearSpeed.Value = Math.Max(runtimeParameters.PlDepLinearSpeed, numericUpDownPlDepLinearSpeed.Minimum);
+                numericUpDownPlAppRotationSpeed.Value = Math.Max(runtimeParameters.PlAppRotationSpeed, numericUpDownPlAppRotationSpeed.Minimum);
+                numericUpDownPlPlaceRotationSpeed.Value = Math.Max(runtimeParameters.PlPlaceRotationSpeed, numericUpDownPlPlaceRotationSpeed.Minimum);
+                numericUpDownPlDepRotationSpeed.Value = Math.Max(runtimeParameters.PlDepRotationSpeed, numericUpDownPlDepRotationSpeed.Minimum);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @MotionAppDep_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+
+        private void any_numericPkApp_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PkAppAccel;
+            arg2 = runtimeParameters.PkAppRamp;
+            arg3 = runtimeParameters.PkAppHeight;
+            arg4 = runtimeParameters.PkAppZone;
+            arg5 = runtimeParameters.PkAppLinearSpeed;
+            arg6 = runtimeParameters.PkAppRotationSpeed;
+
+            switch (name)
+            {
+                case "numericUpDownPkAppAccel":
+                    runtimeParameters.PkAppAccel = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PkAppAccel;
+                    goto Finish;
+                case "numericUpDownPkAppRamp":
+                    runtimeParameters.PkAppRamp = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PkAppRamp;
+                    goto Finish;
+                case "numericUpDownPkAppHeight":
+                    runtimeParameters.PkAppHeight = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PkAppHeight;
+                    goto Finish;
+                case "numericUpDownPkAppZone":
+                    runtimeParameters.PkAppZone = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PkAppZone;
+                    goto Finish;
+                case "numericUpDownPkAppLinearSpeed":
+                    runtimeParameters.PkAppLinearSpeed = (int)((NumericUpDown)sender).Value;
+                    arg5 = runtimeParameters.PkAppLinearSpeed;
+                    goto Finish;
+                case "numericUpDownPkAppRotationSpeed":
+                    runtimeParameters.PkAppRotationSpeed = (int)((NumericUpDown)sender).Value;
+                    arg6 = runtimeParameters.PkAppRotationSpeed;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store message to object for recipe change
+            for(int i=0;i<_pkAppHeader.Length;i++)
+            {
+                key = _pkAppKey[i];
+                header = _pkAppHeader[i];
+                mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppDepMessages, key, header, msg);
+            }
+
+            // Send the message
+            for (int i = 0; i < _pkAppHeader.Length; i++)
+            {
+                header = _pkAppHeader[i];
+                mainForm.SendMessageToRobot(i+1, header + msg);
+            }
+
+
+        }
+
+        private void any_numericPkPick_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PkPickAccel;
+            arg2 = runtimeParameters.PkPickRamp;
+            arg3 = runtimeParameters.PkPickLinearSpeed;
+            arg4 = runtimeParameters.PkPickRotationSpeed;
+
+            switch (name)
+            {
+                case "numericUpDownPkPickAccel":
+                    runtimeParameters.PkPickAccel = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PkPickAccel;
+                    goto Finish;
+                case "numericUpDownPkPickRamp":
+                    runtimeParameters.PkPickRamp = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PkPickRamp;
+                    goto Finish;
+                case "numericUpDownPkPickLinearSpeed":
+                    runtimeParameters.PkPickLinearSpeed = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PkPickLinearSpeed;
+                    goto Finish;
+                case "numericUpDownPkPickRotationSpeed":
+                    runtimeParameters.PkPickRotationSpeed = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PkPickRotationSpeed;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+
+            // Store message to object for recipe change
+            for (int i = 0; i < _pkPickHeader.Length; i++)
+            {
+                key = _pkPickKey[i];
+                header = _pkPickHeader[i];
+                mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppDepMessages, key, header, msg);
+            }
+
+            // Send the message
+            for (int i = 0; i < _pkPickHeader.Length; i++)
+            {
+                header = _pkPickHeader[i];
+                mainForm.SendMessageToRobot(i+1, header + msg);
+            }
+ 
+
+        }
+
+        private void any_numericPkDep_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PkDepAccel;
+            arg2 = runtimeParameters.PkDepRamp;
+            arg3 = runtimeParameters.PkDepHeight;
+            arg4 = runtimeParameters.PkDepZone;
+            arg5 = runtimeParameters.PkDepLinearSpeed;
+            arg6 = runtimeParameters.PkDepRotationSpeed;
+
+            switch (name)
+            {
+                case "numericUpDownPkDepAccel":
+                    runtimeParameters.PkDepAccel = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PkDepAccel;
+                    goto Finish;
+                case "numericUpDownPkDepRamp":
+                    runtimeParameters.PkDepRamp = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PkDepRamp;
+                    goto Finish;
+                case "numericUpDownPkDepHeight":
+                    runtimeParameters.PkDepHeight = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PkDepHeight;
+                    goto Finish;
+                case "numericUpDownPkDepZone":
+                    runtimeParameters.PkDepZone = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PkDepZone;
+                    goto Finish;
+                case "numericUpDownPkDepLinearSpeed":
+                    runtimeParameters.PkDepLinearSpeed = (int)((NumericUpDown)sender).Value;
+                    arg5 = runtimeParameters.PkDepLinearSpeed;
+                    goto Finish;
+                case "numericUpDownPkDepRotationSpeed":
+                    runtimeParameters.PkDepRotationSpeed = (int)((NumericUpDown)sender).Value;
+                    arg6 = runtimeParameters.PkDepRotationSpeed;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+
+            // Store message to object for recipe change
+            for (int i = 0; i < _pkDepHeader.Length; i++)
+            {
+                key = _pkDepKey[i];
+                header = _pkDepHeader[i];
+                mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppDepMessages, key, header, msg);
+            }
+
+            // Send the message
+            for (int i = 0; i < _pkDepHeader.Length; i++)
+            {
+                header = _pkDepHeader[i];
+                mainForm.SendMessageToRobot(i+1, header + msg);
+            }
+
+        }
+
+        private void any_numericPlApp_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PlAppAccel;
+            arg2 = runtimeParameters.PlAppRamp;
+            arg3 = runtimeParameters.PlAppHeight;
+            arg4 = runtimeParameters.PlAppZone;
+            arg5 = runtimeParameters.PlAppLinearSpeed;
+            arg6 = runtimeParameters.PlAppRotationSpeed;
+
+            switch (name)
+            {
+                case "numericUpDownPlAppAccel":
+                    runtimeParameters.PlAppAccel = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PlAppAccel;
+                    goto Finish;
+                case "numericUpDownPlAppRamp":
+                    runtimeParameters.PlAppRamp = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PlAppRamp;
+                    goto Finish;
+                case "numericUpDownPlAppHeight":
+                    runtimeParameters.PlAppHeight = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PlAppHeight;
+                    goto Finish;
+                case "numericUpDownPlAppZone":
+                    runtimeParameters.PlAppZone = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PlAppZone;
+                    goto Finish;
+                case "numericUpDownPlAppLinearSpeed":
+                    runtimeParameters.PlAppLinearSpeed = (int)((NumericUpDown)sender).Value;
+                    arg5 = runtimeParameters.PlAppLinearSpeed;
+                    goto Finish;
+                case "numericUpDownPlAppRotationSpeed":
+                    runtimeParameters.PlAppRotationSpeed = (int)((NumericUpDown)sender).Value;
+                    arg6 = runtimeParameters.PlAppRotationSpeed;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store message to object for recipe change
+            for (int i = 0; i < _plAppHeader.Length; i++)
+            {
+                key = _plAppKey[i];
+                header = _plAppHeader[i];
+                mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppDepMessages, key, header, msg);
+            }
+
+            // Send the message
+            for (int i = 0; i < _plAppHeader.Length; i++)
+            {
+                header = _plAppHeader[i];
+                mainForm.SendMessageToRobot(i+1, header + msg);
+            }
+
+
+        }
+
+        private void any_numericPlPlace_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PlPlaceAccel;
+            arg2 = runtimeParameters.PlPlaceRamp;
+            arg3 = runtimeParameters.PlPlaceLinearSpeed;
+            arg4 = runtimeParameters.PlPlaceRotationSpeed;
+
+            switch (name)
+            {
+                case "numericUpDownPlPlaceAccel":
+                    runtimeParameters.PlPlaceAccel = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PlPlaceAccel;
+                    goto Finish;
+                case "numericUpDownPlPlaceRamp":
+                    runtimeParameters.PlPlaceRamp = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PlPlaceRamp;
+                    goto Finish;
+                case "numericUpDownPlPlaceLinearSpeed":
+                    runtimeParameters.PlPlaceLinearSpeed = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PlPlaceLinearSpeed;
+                    goto Finish;
+                case "numericUpDownPlPlaceRotationSpeed":
+                    runtimeParameters.PlPlaceRotationSpeed = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PlPlaceRotationSpeed;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+
+            // Store message to object for recipe change
+            for (int i = 0; i < _plPlaceHeader.Length; i++)
+            {
+                key = _plPlaceKey[i];
+                header = _plPlaceHeader[i];
+                mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppDepMessages, key, header, msg);
+            }
+
+            // Send the message
+            for (int i = 0; i < _plPlaceHeader.Length; i++)
+            {
+                header = _plPlaceHeader[i];
+                mainForm.SendMessageToRobot(i+1, header + msg);
+            }
+
+        }
+
+        private void any_numericPlDep_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PlDepAccel;
+            arg2 = runtimeParameters.PlDepRamp;
+            arg3 = runtimeParameters.PlDepHeight;
+            arg4 = runtimeParameters.PlDepZone;
+            arg5 = runtimeParameters.PlDepLinearSpeed;
+            arg6 = runtimeParameters.PlDepRotationSpeed;
+
+            switch (name)
+            {
+                case "numericUpDownPlDepAccel":
+                    runtimeParameters.PlDepAccel = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PlDepAccel;
+                    goto Finish;
+                case "numericUpDownPlDepRamp":
+                    runtimeParameters.PlDepRamp = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PlDepRamp;
+                    goto Finish;
+                case "numericUpDownPlDepHeight":
+                    runtimeParameters.PlDepHeight = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PlDepHeight;
+                    goto Finish;
+                case "numericUpDownPlDepZone":
+                    runtimeParameters.PlDepZone = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PlDepZone;
+                    goto Finish;
+                case "numericUpDownPlDepLinearSpeed":
+                    runtimeParameters.PlDepLinearSpeed = (int)((NumericUpDown)sender).Value;
+                    arg5 = runtimeParameters.PlDepLinearSpeed;
+                    goto Finish;
+                case "numericUpDownPlDepRotationSpeed":
+                    runtimeParameters.PlDepRotationSpeed = (int)((NumericUpDown)sender).Value;
+                    arg6 = runtimeParameters.PlDepRotationSpeed;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+
+            // Store message to object for recipe change
+            for (int i = 0; i < _plDepHeader.Length; i++)
+            {
+                key = _plDepKey[i];
+                header = _plDepHeader[i];
+                mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppDepMessages, key, header, msg);
+            }
+
+            // Send the message
+            for (int i = 0; i < _plDepHeader.Length; i++)
+            {
+                header = _plDepHeader[i];
+                mainForm.SendMessageToRobot(i+1, header + msg);
+            }
+
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            Close();
+        }
+
+        private void MotionAppDep_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                    {
+                        saveParameters = true;
+                    }
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+
+                // Send recipe data to robots
+                mainForm.UpdateRobotMessages(1, restoreParameters);
+                mainForm.UpdateRobotMessages(2, restoreParameters);
+                mainForm.UpdateRobotMessages(3, restoreParameters);
+                mainForm.UpdateRobotMessages(4, restoreParameters);
+            }
+        }
+
+    }
+}

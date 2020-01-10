@@ -1,0 +1,1421 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace AbbCom.Forms
+{
+    public partial class PlaceParams : Form
+    {
+        private string _r1PlEOATHeader = "EoatTiming,1,3,1,0";
+        private string _r2PlEOATHeader = "EoatTiming,2,4,1,0";
+        private string _r3PlEOATHeader = "EoatTiming,1,3,1,0";
+        private string _r4PlEOATHeader = "EoatTiming,2,4,1,0";
+
+        private string _r1PlRmtHeader = "RobMotionTiming,1,3";
+        private string _r2PlRmtHeader = "RobMotionTiming,2,4";
+        private string _r3PlRmtHeader = "RobMotionTiming,1,3";
+        private string _r4PlRmtHeader = "RobMotionTiming,2,4";
+
+        private string _r1TrgtOffsHeader = "TrgtOffs,1,3,1";
+        private string _r2TrgtOffsHeader = "TrgtOffs,2,4,1";
+        private string _r3TrgtOffsHeader = "TrgtOffs,1,3,1";
+        private string _r4TrgtOffsHeader = "TrgtOffs,2,4,1";
+
+        private string _r1MiscParamsHeader = "MiscParams,1,1";
+        private string _r2MiscParamsHeader = "MiscParams,2,2";
+        private string _r3MiscParamsHeader = "MiscParams,1,1";
+        private string _r4MiscParamsHeader = "MiscParams,2,2";
+
+        private string _r1RmaOffsHeader = "RobMotionAppOffset,1,3,1";
+        private string _r2RmaOffsHeader = "RobMotionAppOffset,2,4,1";
+        private string _r3RmaOffsHeader = "RobMotionAppOffset,1,3,1";
+        private string _r4RmaOffsHeader = "RobMotionAppOffset,2,4,1";
+
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+
+        public PlaceParams(MainForm mf, RuntimeParameters rp)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            runtimeParameters = rp;
+            restoreParameters = rp.ShallowCopy();
+
+        }
+
+        private void PlaceParams_Load(object sender, EventArgs e)
+        {
+
+            // Update EOAT timing controls
+            try
+            {
+                numericUpDownR1PlPuffOn.Value = (decimal)runtimeParameters.R1PlPuffOn;
+                numericUpDownR1PlPuffDuration.Value = (decimal)runtimeParameters.R1PlPuffDuration;
+
+                numericUpDownR2PlPuffOn.Value = (decimal)runtimeParameters.R2PlPuffOn;
+                numericUpDownR2PlPuffDuration.Value = (decimal)runtimeParameters.R2PlPuffDuration;
+
+                numericUpDownR3PlPuffOn.Value = (decimal)runtimeParameters.R3PlPuffOn;
+                numericUpDownR3PlPuffDuration.Value = (decimal)runtimeParameters.R3PlPuffDuration;
+
+                numericUpDownR4PlPuffOn.Value = (decimal)runtimeParameters.R4PlPuffOn;
+                numericUpDownR4PlPuffDuration.Value = (decimal)runtimeParameters.R4PlPuffDuration;
+
+                // Update Rob Motion Timing controls
+                numericUpDownR1PlRmtDwell.Value = (decimal)runtimeParameters.R1PlRmtDwell;
+                numericUpDownR1PlRmtUpLkAhead.Value = (decimal)runtimeParameters.R1PlRmtUpLkAhead;
+                numericUpDownR1PlRmtDnLkAhead.Value = (decimal)runtimeParameters.R1PlRmtDnLkAhead;
+
+                numericUpDownR2PlRmtDwell.Value = (decimal)runtimeParameters.R2PlRmtDwell;
+                numericUpDownR2PlRmtUpLkAhead.Value = (decimal)runtimeParameters.R2PlRmtUpLkAhead;
+                numericUpDownR2PlRmtDnLkAhead.Value = (decimal)runtimeParameters.R2PlRmtDnLkAhead;
+
+                numericUpDownR3PlRmtDwell.Value = (decimal)runtimeParameters.R3PlRmtDwell;
+                numericUpDownR3PlRmtUpLkAhead.Value = (decimal)runtimeParameters.R3PlRmtUpLkAhead;
+                numericUpDownR3PlRmtDnLkAhead.Value = (decimal)runtimeParameters.R3PlRmtDnLkAhead;
+
+                numericUpDownR4PlRmtDwell.Value = (decimal)runtimeParameters.R4PlRmtDwell;
+                numericUpDownR4PlRmtUpLkAhead.Value = (decimal)runtimeParameters.R4PlRmtUpLkAhead;
+                numericUpDownR4PlRmtDnLkAhead.Value = (decimal)runtimeParameters.R4PlRmtDnLkAhead;
+
+
+                // Update placement offsets
+                numericUpDownR1plXoffs.Value = (decimal)runtimeParameters.R1plXoffs;
+                numericUpDownR1plYoffs.Value = (decimal)runtimeParameters.R1plYoffs;
+                numericUpDownR1plZoffs.Value = (decimal)runtimeParameters.R1plZoffs;
+                numericUpDownR1plAngoffs.Value = (decimal)runtimeParameters.R1plAngoffs;
+
+                numericUpDownR2plXoffs.Value = (decimal)runtimeParameters.R2plXoffs;
+                numericUpDownR2plYoffs.Value = (decimal)runtimeParameters.R2plYoffs;
+                numericUpDownR2plZoffs.Value = (decimal)runtimeParameters.R2plZoffs;
+                numericUpDownR2plAngoffs.Value = (decimal)runtimeParameters.R2plAngoffs;
+
+                numericUpDownR3plXoffs.Value = (decimal)runtimeParameters.R3plXoffs;
+                numericUpDownR3plYoffs.Value = (decimal)runtimeParameters.R3plYoffs;
+                numericUpDownR3plZoffs.Value = (decimal)runtimeParameters.R3plZoffs;
+                numericUpDownR3plAngoffs.Value = (decimal)runtimeParameters.R3plAngoffs;
+
+                numericUpDownR4plXoffs.Value = (decimal)runtimeParameters.R4plXoffs;
+                numericUpDownR4plYoffs.Value = (decimal)runtimeParameters.R4plYoffs;
+                numericUpDownR4plZoffs.Value = (decimal)runtimeParameters.R4plZoffs;
+                numericUpDownR4plAngoffs.Value = (decimal)runtimeParameters.R4plAngoffs;
+
+                // Update partial placement offsets
+                numericUpDownR1PartialPloffsX_atZero.Value = runtimeParameters.R1PartialPlaceOffs_X_atZero;
+                numericUpDownR1PartialPloffsY_atZero.Value = runtimeParameters.R1PartialPlaceOffs_Y_atZero;
+                numericUpDownR1PartialPloffsZ_atZero.Value = runtimeParameters.R1PartialPlaceOffs_Z_atZero;
+                numericUpDownR1PartialPloffsAng_atZero.Value = runtimeParameters.R1PartialPlaceOffs_Ang_atZero;
+
+                numericUpDownR1PartialPloffsX_at90.Value = runtimeParameters.R1PartialPlaceOffs_X_at90;
+                numericUpDownR1PartialPloffsY_at90.Value = runtimeParameters.R1PartialPlaceOffs_Y_at90;
+                numericUpDownR1PartialPloffsZ_at90.Value = runtimeParameters.R1PartialPlaceOffs_Z_at90;
+                numericUpDownR1PartialPloffsAng_at90.Value = runtimeParameters.R1PartialPlaceOffs_Ang_at90;
+
+                numericUpDownR2PartialPloffsX_atZero.Value = runtimeParameters.R2PartialPlaceOffs_X_atZero;
+                numericUpDownR2PartialPloffsY_atZero.Value = runtimeParameters.R2PartialPlaceOffs_Y_atZero;
+                numericUpDownR2PartialPloffsZ_atZero.Value = runtimeParameters.R2PartialPlaceOffs_Z_atZero;
+                numericUpDownR2PartialPloffsAng_atZero.Value = runtimeParameters.R2PartialPlaceOffs_Ang_atZero;
+
+                numericUpDownR2PartialPloffsX_at90.Value = runtimeParameters.R2PartialPlaceOffs_X_at90;
+                numericUpDownR2PartialPloffsY_at90.Value = runtimeParameters.R2PartialPlaceOffs_Y_at90;
+                numericUpDownR2PartialPloffsZ_at90.Value = runtimeParameters.R2PartialPlaceOffs_Z_at90;
+                numericUpDownR2PartialPloffsAng_at90.Value = runtimeParameters.R2PartialPlaceOffs_Ang_at90;
+
+                radioButton_atZero.Enabled = false;
+                radioButton_at90.Enabled = false;
+                
+
+                if (runtimeParameters.PackPatternMaxPl == 20)
+                {
+                    radioButton_atZero.Enabled = true;
+                    radioButton_at90.Enabled = true;
+
+                    if (runtimeParameters.PlaceTopLayerAtZero)
+                    {
+                        radioButton_atZero.Checked = true;
+                    }
+                    else
+                    {
+                        radioButton_at90.Checked = true;
+                    }
+
+                    //groupBoxPartialPlaceOffs.Enabled = !mainForm.VisionOnline;
+                    groupBoxPartialPlaceOffs.Enabled = true;
+
+                    if (runtimeParameters.PlaceTopLayerAtZero)
+                    {
+                        EnableAtZeroControls();
+                    }
+                    else
+                    {
+                        EnableAt90Controls();
+                    }
+                }
+
+                // Update all other controls
+                if (runtimeParameters.MpUseApp == 1)
+                {
+                    checkBoxUseSidewaysApp.Checked = true;
+                }
+                else
+                {
+                    checkBoxUseSidewaysApp.Checked = false;
+                }
+                if (runtimeParameters.MpUseDep == 1)
+                {
+                    checkBoxUseSidewaysDep.Checked = true;
+                }
+                else
+                {
+                    checkBoxUseSidewaysDep.Checked = false;
+                }
+                numericUpDownRobMotionAppOffs.Value = runtimeParameters.RobMotionAppOffs;
+                numericUpDownRobMotionDepOffs.Value = runtimeParameters.RobMotionDepOffs;
+
+                // Set Puff On text based on carton count  ### cheezy
+                labelPuffOn.Text = "Puff On (@Approach End)";
+                if (runtimeParameters.PackPatternMaxPl == 12)
+                {
+                    labelPuffOn.Text = "Puff On (@Place Loc)";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @PlaceParams_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+        private void EnableAt90Controls()
+        {
+            numericUpDownR1PartialPloffsX_atZero.Enabled = false;
+            numericUpDownR1PartialPloffsY_atZero.Enabled = false;
+            numericUpDownR1PartialPloffsZ_atZero.Enabled = false;
+            numericUpDownR1PartialPloffsAng_atZero.Enabled = false;
+
+            numericUpDownR2PartialPloffsX_atZero.Enabled = false;
+            numericUpDownR2PartialPloffsY_atZero.Enabled = false;
+            numericUpDownR2PartialPloffsZ_atZero.Enabled = false;
+            numericUpDownR2PartialPloffsAng_atZero.Enabled = false;
+
+            numericUpDownR1PartialPloffsX_at90.Enabled = true;
+            numericUpDownR1PartialPloffsY_at90.Enabled = true;
+            numericUpDownR1PartialPloffsZ_at90.Enabled = true;
+            numericUpDownR1PartialPloffsAng_at90.Enabled = true;
+
+            numericUpDownR2PartialPloffsX_at90.Enabled = true;
+            numericUpDownR2PartialPloffsY_at90.Enabled = true;
+            numericUpDownR2PartialPloffsZ_at90.Enabled = true;
+            numericUpDownR2PartialPloffsAng_at90.Enabled = true;
+        }
+
+        private void EnableAtZeroControls()
+        {
+            numericUpDownR1PartialPloffsX_atZero.Enabled = true;
+            numericUpDownR1PartialPloffsY_atZero.Enabled = true;
+            numericUpDownR1PartialPloffsZ_atZero.Enabled = true;
+            numericUpDownR1PartialPloffsAng_atZero.Enabled = true;
+
+            numericUpDownR2PartialPloffsX_atZero.Enabled = true;
+            numericUpDownR2PartialPloffsY_atZero.Enabled = true;
+            numericUpDownR2PartialPloffsZ_atZero.Enabled = true;
+            numericUpDownR2PartialPloffsAng_atZero.Enabled = true;
+
+            numericUpDownR1PartialPloffsX_at90.Enabled = false;
+            numericUpDownR1PartialPloffsY_at90.Enabled = false;
+            numericUpDownR1PartialPloffsZ_at90.Enabled = false;
+            numericUpDownR1PartialPloffsAng_at90.Enabled = false;
+
+            numericUpDownR2PartialPloffsX_at90.Enabled = false;
+            numericUpDownR2PartialPloffsY_at90.Enabled = false;
+            numericUpDownR2PartialPloffsZ_at90.Enabled = false;
+            numericUpDownR2PartialPloffsAng_at90.Enabled = false;
+        }
+
+        private void any_numericR1RobMotionTiming_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1PlRmtDwell;
+            arg2 = runtimeParameters.R1PlRmtUpLkAhead;
+            arg3 = runtimeParameters.R1PlRmtDnLkAhead;
+            switch (name)
+            {
+                case "numericUpDownR1PlRmtDwell":
+                    runtimeParameters.R1PlRmtDwell = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1PlRmtDwell;
+                    goto Finish;
+                case "numericUpDownR1PlRmtUpLkAhead":
+                    runtimeParameters.R1PlRmtUpLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1PlRmtUpLkAhead;
+                    goto Finish;
+                case "numericUpDownR1PlRmtDnLkAhead":
+                    runtimeParameters.R1PlRmtDnLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R1PlRmtDnLkAhead;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R1plRmt";
+            header = _r1PlRmtHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+        }
+
+        private void any_numericR2RobMotionTiming_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2PlRmtDwell;
+            arg2 = runtimeParameters.R2PlRmtUpLkAhead;
+            arg3 = runtimeParameters.R2PlRmtDnLkAhead;
+            switch (name)
+            {
+                case "numericUpDownR2PlRmtDwell":
+                    runtimeParameters.R2PlRmtDwell = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2PlRmtDwell;
+                    goto Finish;
+                case "numericUpDownR2PlRmtUpLkAhead":
+                    runtimeParameters.R2PlRmtUpLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2PlRmtUpLkAhead;
+                    goto Finish;
+                case "numericUpDownR2PlRmtDnLkAhead":
+                    runtimeParameters.R2PlRmtDnLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R2PlRmtDnLkAhead;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R2plRmt";
+            header = _r2PlRmtHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+
+        }
+
+        private void any_numericR3RobMotionTiming_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R3PlRmtDwell;
+            arg2 = runtimeParameters.R3PlRmtUpLkAhead;
+            arg3 = runtimeParameters.R3PlRmtDnLkAhead;
+            switch (name)
+            {
+                case "numericUpDownR3PlRmtDwell":
+                    runtimeParameters.R3PlRmtDwell = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R3PlRmtDwell;
+                    goto Finish;
+                case "numericUpDownR3PlRmtUpLkAhead":
+                    runtimeParameters.R3PlRmtUpLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R3PlRmtUpLkAhead;
+                    goto Finish;
+                case "numericUpDownR3PlRmtDnLkAhead":
+                    runtimeParameters.R3PlRmtDnLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R3PlRmtDnLkAhead;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R3plRmt";
+            header = _r3PlRmtHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+
+        }
+        private void any_numericR4RobMotionTiming_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R4PlRmtDwell;
+            arg2 = runtimeParameters.R4PlRmtUpLkAhead;
+            arg3 = runtimeParameters.R4PlRmtDnLkAhead;
+            switch (name)
+            {
+                case "numericUpDownR4PlRmtDwell":
+                    runtimeParameters.R4PlRmtDwell = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R4PlRmtDwell;
+                    goto Finish;
+                case "numericUpDownR4PlRmtUpLkAhead":
+                    runtimeParameters.R4PlRmtUpLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R4PlRmtUpLkAhead;
+                    goto Finish;
+                case "numericUpDownR4PlRmtDnLkAhead":
+                    runtimeParameters.R4PlRmtDnLkAhead = (double)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.R4PlRmtDnLkAhead;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R4plRmt";
+            header = _r4PlRmtHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void any_numericR1EoatTiming_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R1PlPuffOn;
+            arg2 = runtimeParameters.R1PlPuffDuration;
+            switch (name)
+            {
+                case "numericUpDownR1PlPuffOn":
+                    runtimeParameters.R1PlPuffOn = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R1PlPuffOn;
+                    goto Finish;
+                case "numericUpDownR1PlPuffDuration":
+                    runtimeParameters.R1PlPuffDuration = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R1PlPuffDuration;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(0);
+
+            // Store message to object for recipe change
+            key = "R1plEoat";
+            header = _r1PlEOATHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.EoatTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+        }
+
+        private void any_numericR2EoatTiming_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R2PlPuffOn;
+            arg2 = runtimeParameters.R2PlPuffDuration;
+            switch (name)
+            {
+                case "numericUpDownR2PlPuffOn":
+                    runtimeParameters.R2PlPuffOn = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R2PlPuffOn;
+                    goto Finish;
+                case "numericUpDownR2PlPuffDuration":
+                    runtimeParameters.R2PlPuffDuration = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R2PlPuffDuration;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(0);
+
+            // Store message to object for recipe change
+            key = "R2plEoat";
+            header = _r2PlEOATHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.EoatTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+        }
+
+        private void any_numericR3EoatTiming_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R3PlPuffOn;
+            arg2 = runtimeParameters.R3PlPuffDuration;
+            switch (name)
+            {
+                case "numericUpDownR3PlPuffOn":
+                    runtimeParameters.R3PlPuffOn = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R3PlPuffOn;
+                    goto Finish;
+                case "numericUpDownR3PlPuffDuration":
+                    runtimeParameters.R3PlPuffDuration = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R3PlPuffDuration;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(0);
+
+            // Store message to object for recipe change
+            key = "R3plEoat";
+            header = _r3PlEOATHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.EoatTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+        }
+
+        private void any_numericR4EoatTiming_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.R4PlPuffOn;
+            arg2 = runtimeParameters.R4PlPuffDuration;
+            switch (name)
+            {
+                case "numericUpDownR4PlPuffOn":
+                    runtimeParameters.R4PlPuffOn = (double)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.R4PlPuffOn;
+                    goto Finish;
+                case "numericUpDownR4PlPuffDuration":
+                    runtimeParameters.R4PlPuffDuration = (double)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.R4PlPuffDuration;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(0);
+
+            // Store message to object for recipe change
+            key = "R4plEoat";
+            header = _r4PlEOATHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.EoatTimingMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void numericUpDownAnyR1PlOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            val1 = runtimeParameters.R1plXoffs;
+            val2 = runtimeParameters.R1plYoffs;
+            val3 = runtimeParameters.R1plZoffs;
+            val4 = runtimeParameters.R1plAngoffs;
+            key = "R1plOffs";
+            switch (name)
+            {
+                case "numericUpDownR1plXoffs":
+                    runtimeParameters.R1plXoffs = (int)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R1plXoffs;
+                    goto Finish;
+                case "numericUpDownR1plYoffs":
+                    runtimeParameters.R1plYoffs = (int)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R1plYoffs;
+                    goto Finish;
+                case "numericUpDownR1plZoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PlZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R1plZoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PlZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R1plZoffs = (int)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R1plZoffs;
+                    goto Finish;
+                case "numericUpDownR1plAngoffs":
+                    runtimeParameters.R1plAngoffs = (int)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R1plAngoffs;
+                    goto Finish;
+
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += _r1TrgtOffsHeader;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PlaceOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+        }
+
+        private void numericUpDownAnyR2PlOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            val1 = runtimeParameters.R2plXoffs;
+            val2 = runtimeParameters.R2plYoffs;
+            val3 = runtimeParameters.R2plZoffs;
+            val4 = runtimeParameters.R2plAngoffs;
+            key = "R2plOffs";
+            switch (name)
+            {
+                case "numericUpDownR2plXoffs":
+                    runtimeParameters.R2plXoffs = (int)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R2plXoffs;
+                    goto Finish;
+                case "numericUpDownR2plYoffs":
+                    runtimeParameters.R2plYoffs = (int)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R2plYoffs;
+                    goto Finish;
+                case "numericUpDownR2plZoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PlZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R2plZoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PlZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R2plZoffs = (int)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R2plZoffs;
+                    goto Finish;
+                case "numericUpDownR2plAngoffs":
+                    runtimeParameters.R2plAngoffs = (int)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R2plAngoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += _r2TrgtOffsHeader;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PlaceOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+        }
+
+        private void numericUpDownAnyR3PlOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            val1 = runtimeParameters.R3plXoffs;
+            val2 = runtimeParameters.R3plYoffs;
+            val3 = runtimeParameters.R3plZoffs;
+            val4 = runtimeParameters.R3plAngoffs;
+            key = "R3plOffs";
+            switch (name)
+            {
+                case "numericUpDownR3plXoffs":
+                    runtimeParameters.R3plXoffs = (int)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R3plXoffs;
+                    goto Finish;
+                case "numericUpDownR3plYoffs":
+                    runtimeParameters.R3plYoffs = (int)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R3plYoffs;
+                    goto Finish;
+                case "numericUpDownR3plZoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PlZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R3plZoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PlZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R3plZoffs = (int)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R3plZoffs;
+                    goto Finish;
+                case "numericUpDownR3plAngoffs":
+                    runtimeParameters.R3plAngoffs = (int)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R3plAngoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += _r3TrgtOffsHeader;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PlaceOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+        }
+
+        private void numericUpDownAnyR4PlOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            val1 = runtimeParameters.R4plXoffs;
+            val2 = runtimeParameters.R4plYoffs;
+            val3 = runtimeParameters.R4plZoffs;
+            val4 = runtimeParameters.R4plAngoffs;
+            key = "R4plOffs";
+            switch (name)
+            {
+                case "numericUpDownR4plXoffs":
+                    runtimeParameters.R4plXoffs = (int)((NumericUpDown)sender).Value;
+                    val1 = runtimeParameters.R4plXoffs;
+                    goto Finish;
+                case "numericUpDownR4plYoffs":
+                    runtimeParameters.R4plYoffs = (int)((NumericUpDown)sender).Value;
+                    val2 = runtimeParameters.R4plYoffs;
+                    goto Finish;
+                case "numericUpDownR4plZoffs":
+
+                    if (((NumericUpDown)sender).Value < runtimeParameters.PlZoffsMax)
+                    {
+                        ((NumericUpDown)sender).Value = (decimal)runtimeParameters.R4plZoffs;
+                        MessageBox.Show("Please enter a value greater than " + runtimeParameters.PlZoffsMax.ToString());
+                        return;
+                    }
+                    runtimeParameters.R4plZoffs = (int)((NumericUpDown)sender).Value;
+                    val3 = runtimeParameters.R4plZoffs;
+                    goto Finish;
+                case "numericUpDownR4plAngoffs":
+                    runtimeParameters.R4plAngoffs = (int)((NumericUpDown)sender).Value;
+                    val4 = runtimeParameters.R4plAngoffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            header += _r4TrgtOffsHeader;
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+
+            // Store message to object for recipe change
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PlaceOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void checkBoxUseSidewayApp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((CheckBox)sender).Name;
+
+            MiscParams(1, sender, name);
+            MiscParams(2, sender, name);
+
+        }
+
+        private void MiscParams(int robNum, object sender, string name)
+        {
+            int val1 = 0, val2 = 0;
+            int val3 = 0, val4 = 0, val5 = 0, val6 = 0;
+            string key = string.Empty;
+            bool cond1 = false;
+
+            // Update object members
+            val1 = runtimeParameters.MpUseApp;
+            val2 = runtimeParameters.MpUseDep;
+
+            switch (robNum)
+            {
+                case 1:
+                    if (runtimeParameters.PlaceTopLayerAtZero)
+                    {
+                        val3 = runtimeParameters.R1PartialPlaceOffs_X_atZero;
+                        val4 = runtimeParameters.R1PartialPlaceOffs_Y_atZero;
+                        val5 = runtimeParameters.R1PartialPlaceOffs_Z_atZero;
+                        val6 = runtimeParameters.R1PartialPlaceOffs_Ang_atZero;
+                    }
+                    else
+                    {
+                        val3 = runtimeParameters.R1PartialPlaceOffs_X_at90;
+                        val4 = runtimeParameters.R1PartialPlaceOffs_Y_at90;
+                        val5 = runtimeParameters.R1PartialPlaceOffs_Z_at90;
+                        val6 = runtimeParameters.R1PartialPlaceOffs_Ang_at90;
+                    }
+                    break;
+                case 2:
+                    if (runtimeParameters.PlaceTopLayerAtZero)
+                    {
+                        val3 = runtimeParameters.R2PartialPlaceOffs_X_atZero;
+                        val4 = runtimeParameters.R2PartialPlaceOffs_Y_atZero;
+                        val5 = runtimeParameters.R2PartialPlaceOffs_Z_atZero;
+                        val6 = runtimeParameters.R2PartialPlaceOffs_Ang_atZero;
+                    }
+                    else
+                    {
+                        val3 = runtimeParameters.R2PartialPlaceOffs_X_at90;
+                        val4 = runtimeParameters.R2PartialPlaceOffs_Y_at90;
+                        val5 = runtimeParameters.R2PartialPlaceOffs_Z_at90;
+                        val6 = runtimeParameters.R2PartialPlaceOffs_Ang_at90;
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Invalid robot number @MiscParams");
+                    Environment.Exit(1);
+                    break;
+            }
+
+            switch (name)
+            {
+                case "checkBoxUseSidewaysApp":
+                    if (((CheckBox)sender).Checked)
+                    {
+                        runtimeParameters.MpUseApp = 1;
+                    }
+                    else
+                    {
+                        runtimeParameters.MpUseApp = 0;
+                    }
+
+                    val1 = runtimeParameters.MpUseApp;
+                    goto Finish;
+                case "checkBoxUseSidewaysDep":
+                    if (((CheckBox)sender).Checked)
+                    {
+                        runtimeParameters.MpUseDep = 1;
+                    }
+                    else
+                    {
+                        runtimeParameters.MpUseDep = 0;
+                    }
+
+                    val2 = runtimeParameters.MpUseDep;
+                    goto Finish;
+            }
+
+            switch(robNum)
+            {
+                case 1:
+                    switch (name)
+                    {
+                        case "numericUpDownR1PartialPloffsX_atZero":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R1PartialPlaceOffs_X_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val3 = runtimeParameters.R1PartialPlaceOffs_X_atZero;
+                            goto Finish;
+                        case "numericUpDownR1PartialPloffsX_at90":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R1PartialPlaceOffs_X_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val3 = runtimeParameters.R1PartialPlaceOffs_X_at90;
+                            goto Finish;
+                        case "numericUpDownR1PartialPloffsY_atZero":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R1PartialPlaceOffs_Y_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val4 = runtimeParameters.R1PartialPlaceOffs_Y_atZero;
+                            goto Finish;
+
+                        case "numericUpDownR1PartialPloffsY_at90":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R1PartialPlaceOffs_Y_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val4 = runtimeParameters.R1PartialPlaceOffs_Y_at90;
+                            goto Finish;
+
+                        case "numericUpDownR1PartialPloffsZ_atZero":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R1PartialPlaceOffs_Z_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val5 = runtimeParameters.R1PartialPlaceOffs_Z_atZero;
+                            goto Finish;
+                        case "numericUpDownR1PartialPloffsZ_at90":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R1PartialPlaceOffs_Z_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val5 = runtimeParameters.R1PartialPlaceOffs_Z_at90;
+                            goto Finish;
+                        case "numericUpDownR1PartialPloffsAng_atZero":
+                            if (sender != null)
+                            {
+                                cond1 = (int)((NumericUpDown)sender).Value == 0;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == 90;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == -90;
+                                if (!cond1)
+                                {
+                                    ((NumericUpDown)sender).Value = runtimeParameters.R1PartialPlaceOffs_Ang_atZero;
+                                    MessageBox.Show("Please enter 0, 90 or -90");
+                                    return;
+                                }
+                                runtimeParameters.R1PartialPlaceOffs_Ang_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val6 = runtimeParameters.R1PartialPlaceOffs_Ang_atZero;
+                            goto Finish;
+
+                        case "numericUpDownR1PartialPloffsAng_at90":
+                            if (sender != null)
+                            {
+                                cond1 = (int)((NumericUpDown)sender).Value == 0;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == 90;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == -90;
+                                if (!cond1)
+                                {
+                                    ((NumericUpDown)sender).Value = runtimeParameters.R1PartialPlaceOffs_Ang_at90;
+                                    MessageBox.Show("Please enter 0, 90 or -90");
+                                    return;
+                                }
+                                runtimeParameters.R1PartialPlaceOffs_Ang_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val6 = runtimeParameters.R1PartialPlaceOffs_Ang_at90;
+                            goto Finish;
+                    }
+                    break;
+                case 2:
+                    switch (name)
+                    {
+                        case "numericUpDownR2PartialPloffsX_atZero":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R2PartialPlaceOffs_X_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val3 = runtimeParameters.R2PartialPlaceOffs_X_atZero;
+                            goto Finish;
+                        case "numericUpDownR2PartialPloffsX_at90":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R2PartialPlaceOffs_X_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val3 = runtimeParameters.R2PartialPlaceOffs_X_at90;
+                            goto Finish;
+                        case "numericUpDownR2PartialPloffsY_atZero":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R2PartialPlaceOffs_Y_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val4 = runtimeParameters.R2PartialPlaceOffs_Y_atZero;
+                            goto Finish;
+
+                        case "numericUpDownR2PartialPloffsY_at90":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R2PartialPlaceOffs_Y_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val4 = runtimeParameters.R2PartialPlaceOffs_Y_at90;
+                            goto Finish;
+
+                        case "numericUpDownR2PartialPloffsZ_atZero":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R2PartialPlaceOffs_Z_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val5 = runtimeParameters.R2PartialPlaceOffs_Z_atZero;
+                            goto Finish;
+
+                        case "numericUpDownR2PartialPloffsZ_at90":
+                            if (sender != null)
+                            {
+                                runtimeParameters.R2PartialPlaceOffs_Z_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val5 = runtimeParameters.R2PartialPlaceOffs_Z_at90;
+                            goto Finish;
+
+                        case "numericUpDownR2PartialPloffsAng_atZero":
+                            if (sender != null)
+                            {
+                                cond1 = (int)((NumericUpDown)sender).Value == 0;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == 90;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == -90;
+                                if (!cond1)
+                                {
+                                    ((NumericUpDown)sender).Value = runtimeParameters.R2PartialPlaceOffs_Ang_atZero;
+                                    MessageBox.Show("Please enter 0, 90 or -90");
+                                    return;
+                                }
+                                runtimeParameters.R2PartialPlaceOffs_Ang_atZero = (int)((NumericUpDown)sender).Value;
+                            }
+                            val6 = runtimeParameters.R2PartialPlaceOffs_Ang_atZero;
+                            goto Finish;
+                          case "numericUpDownR2PartialPloffsAng_at90":
+                            if (sender != null)
+                            {
+                                cond1 = (int)((NumericUpDown)sender).Value == 0;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == 90;
+                                cond1 = cond1 || (int)((NumericUpDown)sender).Value == -90;
+                                if (!cond1)
+                                {
+                                    ((NumericUpDown)sender).Value = runtimeParameters.R2PartialPlaceOffs_Ang_at90;
+                                    MessageBox.Show("Please enter 0, 90 or -90");
+                                    return;
+                                }
+                                runtimeParameters.R2PartialPlaceOffs_Ang_at90 = (int)((NumericUpDown)sender).Value;
+                            }
+                            val6 = runtimeParameters.R2PartialPlaceOffs_Ang_at90;
+                            goto Finish;
+
+                    }
+                    break;
+
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(val1);
+            msg += "," + Convert.ToString(val2);
+            msg += "," + Convert.ToString(val3);
+            msg += "," + Convert.ToString(val4);
+            msg += "," + Convert.ToString(val5);
+            msg += "," + Convert.ToString(val6);
+
+
+            switch (robNum)
+            {
+                case 1:
+                    // Store R1 message to object for recipe change
+                    key = "R1MiscParams";
+                    header = _r1MiscParamsHeader;
+                    mainForm.UpdateRuntimeKeyString(runtimeParameters.MiscParamsMessages, key, header, msg);
+
+                    // Send the message
+                    mainForm.SendMessageToRobot(1, header + msg);
+
+                    // Store R3 message to object for recipe change
+                    key = "R3MiscParams";
+                    header = _r3MiscParamsHeader;
+                    mainForm.UpdateRuntimeKeyString(runtimeParameters.MiscParamsMessages, key, header, msg);
+
+                    // Send the message
+                    mainForm.SendMessageToRobot(3, header + msg);
+                    break;
+                case 2:
+
+                    // Store R2 message to object for recipe change
+                    key = "R2MiscParams";
+                    header = _r2MiscParamsHeader;
+                    mainForm.UpdateRuntimeKeyString(runtimeParameters.MiscParamsMessages, key, header, msg);
+
+                    // Send the message
+                    mainForm.SendMessageToRobot(2, header + msg);
+
+                    // Store R4 message to object for recipe change
+                    key = "R4MiscParams";
+                    header = _r4MiscParamsHeader;
+                    mainForm.UpdateRuntimeKeyString(runtimeParameters.MiscParamsMessages, key, header, msg);
+
+                    // Send the message
+                    mainForm.SendMessageToRobot(4, header + msg);
+
+                    break;
+            }
+        }
+
+        private void checkBoxUseSidewaysDep_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((CheckBox)sender).Name;
+
+            MiscParams(1, sender, name);
+            MiscParams(2, sender, name);
+        }
+
+        private void numericUpDownRobMotionAppOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.RobMotionAppOffs;
+            arg2 = runtimeParameters.RobMotionDepOffs;
+            switch (name)
+            {
+                case "numericUpDownRobMotionAppOffs":
+                    runtimeParameters.RobMotionAppOffs = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.RobMotionAppOffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+
+            // Store R1 message to object for recipe change
+            key = "R1RmaOffs";
+            header = _r1RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R2 message to object for recipe change
+            key = "R2RmaOffs";
+            header = _r2RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3RmaOffs";
+            header = _r3RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4RmaOffs";
+            header = _r4RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void numericUpDownRobMotionDepOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            decimal arg1 = 0, arg2 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.RobMotionAppOffs;
+            arg2 = runtimeParameters.RobMotionDepOffs;
+            switch (name)
+            {
+                case "numericUpDownRobMotionDepOffs":
+                    runtimeParameters.RobMotionDepOffs = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.RobMotionDepOffs;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+
+            // Store R1 message to object for recipe change
+            key = "R1RmaOffs";
+            header = _r1RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+            // Store R2 message to object for recipe change
+            key = "R2RmaOffs";
+            header = _r2RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+            // Store R3 message to object for recipe change
+            key = "R3RmaOffs";
+            header = _r3RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+            // Store R4 message to object for recipe change
+            key = "R4RmaOffs";
+            header = _r4RmaOffsHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.RobotMotionAppOffsetMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            Close();
+        }
+
+        private void PlaceParams_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                    {
+                        saveParameters = true;
+                    }
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+
+                // Send recipe data to robots
+                mainForm.UpdateRobotMessages(1, restoreParameters);
+                mainForm.UpdateRobotMessages(2, restoreParameters);
+                mainForm.UpdateRobotMessages(3, restoreParameters);
+                mainForm.UpdateRobotMessages(4, restoreParameters);
+            }
+        }
+
+        private void buttonAdvanced_Click(object sender, EventArgs e)
+        {
+            using (PlaceParamsAdvanced ppa = new PlaceParamsAdvanced(mainForm, runtimeParameters))
+            {
+                ppa.ShowDialog();
+            }
+        }
+
+        private void numericUpDownAnyR1PartialPlOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+
+            MiscParams(1, sender, name);
+        }
+
+        private void numericUpDownAnyR2PartialPlOffs_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+
+            MiscParams(2, sender, name);
+        }
+
+        private void radioButton_atZero_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_atZero.Checked && formLoadComplete)
+            {
+                runtimeParameters.PlaceTopLayerAtZero = true;
+                EnableAtZeroControls();
+                MiscParams(1, null, "numericUpDownR1PartialPloffsX_atZero");
+                MiscParams(1, null, "numericUpDownR1PartialPloffsY_atZero");
+                MiscParams(1, null, "numericUpDownR1PartialPloffsZ_atZero");
+                MiscParams(1, null, "numericUpDownR1PartialPloffsAng_atZero");
+
+                MiscParams(2, null, "numericUpDownR2PartialPloffsX_atZero");
+                MiscParams(2, null, "numericUpDownR2PartialPloffsY_atZero");
+                MiscParams(2, null, "numericUpDownR2PartialPloffsZ_atZero");
+                MiscParams(2, null, "numericUpDownR2PartialPloffsAng_atZero");
+
+            }
+        }
+
+        private void radioButton_at90_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_at90.Checked && formLoadComplete)
+            {
+                runtimeParameters.PlaceTopLayerAtZero = false;
+                EnableAt90Controls();
+                MiscParams(1, null, "numericUpDownR1PartialPloffsX_at90");
+                MiscParams(1, null, "numericUpDownR1PartialPloffsY_at90");
+                MiscParams(1, null, "numericUpDownR1PartialPloffsZ_at90");
+                MiscParams(1, null, "numericUpDownR1PartialPloffsAng_at90");
+
+                MiscParams(2, null, "numericUpDownR2PartialPloffsX_at90");
+                MiscParams(2, null, "numericUpDownR2PartialPloffsY_at90");
+                MiscParams(2, null, "numericUpDownR2PartialPloffsZ_at90");
+                MiscParams(2, null, "numericUpDownR2PartialPloffsAng_at90");
+            }
+        }
+
+    }
+}

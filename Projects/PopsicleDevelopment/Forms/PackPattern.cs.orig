@@ -1,0 +1,472 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Linq;
+
+namespace AbbCom.Forms
+{
+    public partial class PackPattern : Form
+    {
+        private string _r1PackPatternHeader = "PackPattern,1,3";
+        private string _r2PackPatternHeader = "PackPattern,2,4";
+        private string _r3PackPatternHeader = "PackPattern,1,3";
+        private string _r4PackPatternHeader = "PackPattern,2,4";
+
+        private string _r1CnvStationCfgHeader = "CnvStationCfg,1";
+        private string _r2CnvStationCfgHeader = "CnvStationCfg,2";
+        private string _r3CnvStationCfgHeader = "CnvStationCfg,1";
+        private string _r4CnvStationCfgHeader = "CnvStationCfg,2";
+
+        // Initialize
+        MainForm mainForm;
+        RuntimeParameters runtimeParameters;
+        RuntimeParameters restoreParameters;
+
+        bool formLoadComplete = false;
+        bool saveParameters = false;
+        bool normalExit = false;
+        EnableGroupBoxControls egbc;
+
+        public PackPattern(MainForm mf, RuntimeParameters rp)
+        {
+            InitializeComponent();
+
+            mainForm = mf;
+            runtimeParameters = rp;
+            restoreParameters = rp.ShallowCopy();
+
+            egbc = new EnableGroupBoxControls();
+
+        }
+
+        private void PackPattern_Load(object sender, EventArgs e)
+        {
+
+            // Update Layer/Pitch Count controls
+            try
+            {
+                numericUpDownPackPatternXcnt.Value = runtimeParameters.PackPatternXcnt;
+                numericUpDownPackPatternYcnt.Value = runtimeParameters.PackPatternYcnt;
+                numericUpDownPackPatternZcnt.Value = runtimeParameters.PackPatternZcnt;
+                numericUpDownPackPatternXpitch.Value = runtimeParameters.PackPatternXpitch;
+                numericUpDownPackPatternYpitch.Value = runtimeParameters.PackPatternYpitch;
+                numericUpDownPackPatternZpitch.Value = runtimeParameters.PackPatternZpitch;
+
+                // Update Adjusted number to place controls
+                numericUpDownPackPatternR1NumToPl.Value = runtimeParameters.PackPatternR1NumToPl;
+                numericUpDownPackPatternR2NumToPl.Value = runtimeParameters.PackPatternR2NumToPl;
+                numericUpDownPackPatternR3NumToPl.Value = runtimeParameters.PackPatternR3NumToPl;
+                numericUpDownPackPatternR4NumToPl.Value = runtimeParameters.PackPatternR4NumToPl;
+
+                // Update place mode controls
+                numericUpDownCfgR1PlaceMode.Value = (decimal)runtimeParameters.CfgR1PlaceMode;
+                numericUpDownCfgR2PlaceMode.Value = (decimal)runtimeParameters.CfgR2PlaceMode;
+                numericUpDownCfgR3PlaceMode.Value = (decimal)runtimeParameters.CfgR3PlaceMode;
+                numericUpDownCfgR4PlaceMode.Value = (decimal)runtimeParameters.CfgR4PlaceMode;
+
+                // Total bars per Carton control
+                numericUpDownPackPatternMaxPl.Value = runtimeParameters.PackPatternMaxPl;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception @PackPattern_Load:" + ex.Message);
+            }
+            finally
+            {
+                formLoadComplete = true;
+            }
+
+        }
+
+        private void numericUpDownAnyPackPattern_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0, arg4 = 0, arg5 = 0, arg6 = 0, arg7 = 0, arg8 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.PackPatternXcnt;
+            arg2 = runtimeParameters.PackPatternYcnt;
+            arg3 = runtimeParameters.PackPatternZcnt;
+            arg4 = runtimeParameters.PackPatternXpitch;
+            arg5 = runtimeParameters.PackPatternYpitch;
+            arg6 = runtimeParameters.PackPatternZpitch;
+            arg7 = 0;
+            arg8 = runtimeParameters.PackPatternMaxPl;
+
+            switch (name)
+            {
+                case "numericUpDownPackPatternXcnt":
+                    runtimeParameters.PackPatternXcnt = (int)((NumericUpDown)sender).Value;
+                    arg1 = runtimeParameters.PackPatternXcnt;
+                    goto Finish;
+
+                case "numericUpDownPackPatternYcnt":
+                    runtimeParameters.PackPatternYcnt = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.PackPatternYcnt;
+                    goto Finish;
+
+                case "numericUpDownPackPatternZcnt":
+                    runtimeParameters.PackPatternZcnt = (int)((NumericUpDown)sender).Value;
+                    arg3 = runtimeParameters.PackPatternZcnt;
+                    goto Finish;
+
+                case "numericUpDownPackPatternXpitch":
+                    runtimeParameters.PackPatternXpitch = (int)((NumericUpDown)sender).Value;
+                    arg4 = runtimeParameters.PackPatternXpitch;
+                    goto Finish;
+
+                case "numericUpDownPackPatternYpitch":
+                    runtimeParameters.PackPatternYpitch = (int)((NumericUpDown)sender).Value;
+                    arg5 = runtimeParameters.PackPatternYpitch;
+                    goto Finish;
+
+                case "numericUpDownPackPatternZpitch":
+                    runtimeParameters.PackPatternZpitch = (int)((NumericUpDown)sender).Value;
+                    arg6 = runtimeParameters.PackPatternZpitch;
+                    goto Finish;
+
+                case "numericUpDownPackPatternR1NumToPl":
+                    runtimeParameters.PackPatternR1NumToPl = (int)((NumericUpDown)sender).Value;
+                    goto Finish;
+                case "numericUpDownPackPatternR2NumToPl":
+                    runtimeParameters.PackPatternR2NumToPl = (int)((NumericUpDown)sender).Value;
+                    goto Finish;
+                case "numericUpDownPackPatternR3NumToPl":
+                    runtimeParameters.PackPatternR3NumToPl = (int)((NumericUpDown)sender).Value;
+                    goto Finish;
+                case "numericUpDownPackPatternR4NumToPl":
+                    runtimeParameters.PackPatternR4NumToPl = (int)((NumericUpDown)sender).Value;
+                    goto Finish;
+
+                case "numericUpDownPackPatternMaxPl":
+                    runtimeParameters.PackPatternMaxPl = (int)((NumericUpDown)sender).Value;
+                    arg8 = runtimeParameters.PackPatternMaxPl;
+                    goto Finish;
+
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data for R1
+            arg7 = runtimeParameters.PackPatternR1NumToPl;
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+            msg += "," + Convert.ToString(arg7);
+            msg += "," + Convert.ToString(arg8);
+
+            // Store R1 message to object for recipe change
+            key = "R1PackPattern";
+            header = _r1PackPatternHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PackPattenMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+            msg = string.Empty;
+
+            // Compose message data for R2
+            arg7 = runtimeParameters.PackPatternR2NumToPl;
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+            msg += "," + Convert.ToString(arg7);
+            msg += "," + Convert.ToString(arg8);
+
+            // Store R2 message to object for recipe change
+            key = "R2PackPattern";
+            header = _r2PackPatternHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PackPattenMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+            msg = string.Empty;
+
+            // Compose message data for R3
+            arg7 = runtimeParameters.PackPatternR3NumToPl;
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+            msg += "," + Convert.ToString(arg7);
+            msg += "," + Convert.ToString(arg8);
+
+            // Store R3 message to object for recipe change
+            key = "R3PackPattern";
+            header = _r3PackPatternHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PackPattenMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+            msg = string.Empty;
+
+            // Compose message data for R4
+            arg7 = runtimeParameters.PackPatternR4NumToPl;
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+            msg += "," + Convert.ToString(arg4);
+            msg += "," + Convert.ToString(arg5);
+            msg += "," + Convert.ToString(arg6);
+            msg += "," + Convert.ToString(arg7);
+            msg += "," + Convert.ToString(arg8);
+
+            // Store R4 message to object for recipe change
+            key = "R4PackPattern";
+            header = _r4PackPatternHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.PackPattenMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+            msg = string.Empty;
+
+        }
+
+        private void numericUpDownR1CfgPlaceMode_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.CfgR1NumToPick;
+            arg2 = runtimeParameters.CfgR1PlaceMode;
+            arg3 = runtimeParameters.CfgNumPerPick;
+            switch (name)
+            {
+                case "numericUpDownCfgR1PlaceMode":
+                    runtimeParameters.CfgR1PlaceMode = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.CfgR1PlaceMode;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R1CnvStationCfg";
+            header = _r1CnvStationCfgHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.CnvStationCfgMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(1, header + msg);
+
+        }
+
+        private void numericUpDownR2CfgPlaceMode_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.CfgR2NumToPick;
+            arg2 = runtimeParameters.CfgR2PlaceMode;
+            arg3 = runtimeParameters.CfgNumPerPick;
+            switch (name)
+            {
+                case "numericUpDownCfgR2PlaceMode":
+                    runtimeParameters.CfgR2PlaceMode = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.CfgR2PlaceMode;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R2CnvStationCfg";
+            header = _r2CnvStationCfgHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.CnvStationCfgMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(2, header + msg);
+
+        }
+
+        private void numericUpDownR3CfgPlaceMode_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.CfgR3NumToPick;
+            arg2 = runtimeParameters.CfgR3PlaceMode;
+            arg3 = runtimeParameters.CfgNumPerPick;
+            switch (name)
+            {
+                case "numericUpDownCfgR3PlaceMode":
+                    runtimeParameters.CfgR3PlaceMode = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.CfgR3PlaceMode;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R3CnvStationCfg";
+            header = _r3CnvStationCfgHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.CnvStationCfgMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(3, header + msg);
+
+        }
+
+        private void numericUpDownR4CfgPlaceMode_ValueChanged(object sender, EventArgs e)
+        {
+            if (!formLoadComplete) { return; }
+
+            string name = ((NumericUpDown)sender).Name;
+            double arg1 = 0, arg2 = 0, arg3 = 0;
+            string key = string.Empty;
+
+            // Update object members
+            arg1 = runtimeParameters.CfgR4NumToPick;
+            arg2 = runtimeParameters.CfgR4PlaceMode;
+            arg3 = runtimeParameters.CfgNumPerPick;
+            switch (name)
+            {
+                case "numericUpDownCfgR4PlaceMode":
+                    runtimeParameters.CfgR4PlaceMode = (int)((NumericUpDown)sender).Value;
+                    arg2 = runtimeParameters.CfgR4PlaceMode;
+                    goto Finish;
+            }
+
+        Finish:
+
+            string msg = string.Empty;
+            string header = string.Empty;
+
+            // Compose message data
+            msg += "," + Convert.ToString(arg1);
+            msg += "," + Convert.ToString(arg2);
+            msg += "," + Convert.ToString(arg3);
+
+            // Store message to object for recipe change
+            key = "R4CnvStationCfg";
+            header = _r4CnvStationCfgHeader;
+            mainForm.UpdateRuntimeKeyString(runtimeParameters.CnvStationCfgMessages, key, header, msg);
+
+            // Send the message
+            mainForm.SendMessageToRobot(4, header + msg);
+
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            saveParameters = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            normalExit = true;
+            Close();
+
+        }
+        private void PackPattern_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            if (!normalExit)
+            {
+                if (!mainForm.RecipeChangeover)
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Save changes?", "Save?", MessageBoxButtons.YesNo))
+                    {
+                        saveParameters = true;
+                    }
+                }
+            }
+
+            if (saveParameters)
+            {
+                mainForm.SerializeRuntimeParameters(runtimeParameters);
+            }
+            else
+            {
+                mainForm.SerializeRuntimeParameters(restoreParameters);
+
+                // Send recipe data to robots
+                mainForm.UpdateRobotMessages(1, restoreParameters);
+                mainForm.UpdateRobotMessages(2, restoreParameters);
+                mainForm.UpdateRobotMessages(3, restoreParameters);
+                mainForm.UpdateRobotMessages(4, restoreParameters);
+            }
+        }
+
+        private void buttonAdvanced_Click(object sender, EventArgs e)
+        {
+            
+            egbc.ShowDialog();
+
+            if (egbc.ShowContols)
+            {
+                foreach (var nud in Controls.OfType<GroupBox>().SelectMany(groupBox => groupBox.Controls.OfType<NumericUpDown>()))
+                {
+                    nud.Enabled = true;
+                }
+            }
+            else
+            {
+                foreach (var nud in Controls.OfType<GroupBox>().SelectMany(groupBox => groupBox.Controls.OfType<NumericUpDown>()))
+                {
+                    nud.Enabled = false;
+                }
+            }
+
+            this.Invalidate(); // Force redraw
+        }
+
+    }
+}

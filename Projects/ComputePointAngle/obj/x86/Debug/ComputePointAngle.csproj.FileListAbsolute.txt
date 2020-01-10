@@ -1,0 +1,49 @@
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.Properties.Resources.resources
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\CognexVisionPro\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe
+C:\CognexVisionPro\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.pdb
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.exe
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.pdb
+C:\CognexVisionPro\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.ComputePointMainForm.resources
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.ComputePointMainForm.resources
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.Properties.Resources.resources
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe.config
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.pdb
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.exe
+C:\CognexVisionPro_V1.0.36 - NUCtest\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.pdb
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe.config
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.pdb
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.ComputePointMainForm.resources
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.Properties.Resources.resources
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.csproj.GenerateResource.Cache
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.exe
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.40\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.pdb
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe.config
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.pdb
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.csprojResolveAssemblyReference.cache
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.ComputePointMainForm.resources
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.Properties.Resources.resources
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.csproj.GenerateResource.Cache
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.exe
+C:\Fishburn\Csharp\CognexVisionPro_V1.0.42\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.pdb
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe.config
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.pdb
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.ComputePointMainForm.resources
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.Properties.Resources.resources
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.csproj.GenerateResource.cache
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.exe
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.pdb
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.exe.manifest
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\bin\Debug\ComputePointAngle.application
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.csprojAssemblyReference.cache
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.exe.manifest
+G:\CSharp\CognexVisionPro_V1.0.42_Community2019\Projects\ComputePointAngle\obj\x86\Debug\ComputePointAngle.application
