@@ -1,7 +1,4 @@
-﻿Test
-Project install date: 3/12/12
-
-Test
+﻿Project install date: 3/12/12
 
 Steps to create a new install:
 1) Make sure to compile the Debug and Release versions of the PopsicleImaging project.
