@@ -32,18 +32,6 @@ namespace AbbCom
             return (MachineConfig)this.MemberwiseClone();
         }
 
-        public string ComPortName = "COM1";
-        public int ComPortBaudRate = 9600;
-        public int ComPortDataBits = 8;
-        public Parity ComPortParity = Parity.None;
-        public StopBits ComPortStopBits = StopBits.One;
-        public Handshake ComPortHandshake = Handshake.None;
-        public bool ComPortEnable = false;
-        public int ComPortReadTimeout = 500;
-        public int ComPortDataMode = 1;
-        public int ComPortPLC_HearBeatFreq = 30000;
-        public int ComPortBytesToExpect = 2;
-        public int ComSendDelay = 100;
         public int VisRobAngleOffs = 0;
         public int VisArrowAngleOffs = 0;
         public string DefaultRecipe = "";

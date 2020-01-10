@@ -240,8 +240,6 @@ namespace AbbCom.Forms
         Stopwatch statusUpdateGreyScale = new Stopwatch();
         Stopwatch timerFlirNUCaction = new Stopwatch();
         Stopwatch timerFlirNUCenable = new Stopwatch();
-        private SerialPort serialPort1;
-        public Timer timerPLC_Heartbeat;
         Stopwatch statusUpdateThermal = new Stopwatch();
         public Timer timerRunRecipeChange;
 
@@ -864,8 +862,6 @@ namespace AbbCom.Forms
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxBaslerStatus = new System.Windows.Forms.TextBox();
             this.textBoxFlirStatus = new System.Windows.Forms.TextBox();
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.timerPLC_Heartbeat = new System.Windows.Forms.Timer(this.components);
             this.timerRunRecipeChange = new System.Windows.Forms.Timer(this.components);
             this.labelVisionOffline = new System.Windows.Forms.Label();
             this.timerDataLoggerHeartbeat = new System.Windows.Forms.Timer(this.components);
@@ -877,9 +873,9 @@ namespace AbbCom.Forms
             // 
             // buttonManualTrigger
             // 
-            this.buttonManualTrigger.Location = new System.Drawing.Point(904, 684);
+            this.buttonManualTrigger.Location = new System.Drawing.Point(1085, 789);
             this.buttonManualTrigger.Name = "buttonManualTrigger";
-            this.buttonManualTrigger.Size = new System.Drawing.Size(145, 60);
+            this.buttonManualTrigger.Size = new System.Drawing.Size(174, 69);
             this.buttonManualTrigger.TabIndex = 1;
             this.buttonManualTrigger.Text = "Manual Trigger (F5)";
             this.buttonManualTrigger.Click += new System.EventHandler(this.ManualTrigger_Click);
@@ -893,12 +889,12 @@ namespace AbbCom.Forms
             this.cogRecFlirLane1Raw.ColorMapUpperRoiLimit = 1D;
             this.cogRecFlirLane1Raw.DoubleTapZoomCycleLength = 2;
             this.cogRecFlirLane1Raw.DoubleTapZoomSensitivity = 2.5D;
-            this.cogRecFlirLane1Raw.Location = new System.Drawing.Point(21, 27);
+            this.cogRecFlirLane1Raw.Location = new System.Drawing.Point(25, 31);
             this.cogRecFlirLane1Raw.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cogRecFlirLane1Raw.MouseWheelSensitivity = 1D;
             this.cogRecFlirLane1Raw.Name = "cogRecFlirLane1Raw";
             this.cogRecFlirLane1Raw.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecFlirLane1Raw.OcxState")));
-            this.cogRecFlirLane1Raw.Size = new System.Drawing.Size(600, 500);
+            this.cogRecFlirLane1Raw.Size = new System.Drawing.Size(900, 721);
             this.cogRecFlirLane1Raw.TabIndex = 6;
             // 
             // cogRecFlirLane2Raw
@@ -910,19 +906,19 @@ namespace AbbCom.Forms
             this.cogRecFlirLane2Raw.ColorMapUpperRoiLimit = 1D;
             this.cogRecFlirLane2Raw.DoubleTapZoomCycleLength = 2;
             this.cogRecFlirLane2Raw.DoubleTapZoomSensitivity = 2.5D;
-            this.cogRecFlirLane2Raw.Location = new System.Drawing.Point(627, 27);
+            this.cogRecFlirLane2Raw.Location = new System.Drawing.Point(752, 31);
             this.cogRecFlirLane2Raw.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cogRecFlirLane2Raw.MouseWheelSensitivity = 1D;
             this.cogRecFlirLane2Raw.Name = "cogRecFlirLane2Raw";
             this.cogRecFlirLane2Raw.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecFlirLane2Raw.OcxState")));
-            this.cogRecFlirLane2Raw.Size = new System.Drawing.Size(600, 500);
+            this.cogRecFlirLane2Raw.Size = new System.Drawing.Size(900, 721);
             this.cogRecFlirLane2Raw.TabIndex = 7;
             // 
             // checkBoxOnLine
             // 
-            this.checkBoxOnLine.Location = new System.Drawing.Point(1133, 0);
+            this.checkBoxOnLine.Location = new System.Drawing.Point(1360, 0);
             this.checkBoxOnLine.Name = "checkBoxOnLine";
-            this.checkBoxOnLine.Size = new System.Drawing.Size(56, 25);
+            this.checkBoxOnLine.Size = new System.Drawing.Size(67, 29);
             this.checkBoxOnLine.TabIndex = 14;
             this.checkBoxOnLine.Text = "Online";
             this.checkBoxOnLine.UseVisualStyleBackColor = true;
@@ -930,9 +926,9 @@ namespace AbbCom.Forms
             // 
             // buttonAdjustParameters
             // 
-            this.buttonAdjustParameters.Location = new System.Drawing.Point(1055, 610);
+            this.buttonAdjustParameters.Location = new System.Drawing.Point(1266, 704);
             this.buttonAdjustParameters.Name = "buttonAdjustParameters";
-            this.buttonAdjustParameters.Size = new System.Drawing.Size(145, 60);
+            this.buttonAdjustParameters.Size = new System.Drawing.Size(174, 69);
             this.buttonAdjustParameters.TabIndex = 15;
             this.buttonAdjustParameters.Text = "Adjust Parameters (F6)";
             this.buttonAdjustParameters.UseVisualStyleBackColor = true;
@@ -940,9 +936,9 @@ namespace AbbCom.Forms
             // 
             // buttonShowComIO
             // 
-            this.buttonShowComIO.Location = new System.Drawing.Point(1055, 684);
+            this.buttonShowComIO.Location = new System.Drawing.Point(1266, 789);
             this.buttonShowComIO.Name = "buttonShowComIO";
-            this.buttonShowComIO.Size = new System.Drawing.Size(145, 60);
+            this.buttonShowComIO.Size = new System.Drawing.Size(174, 69);
             this.buttonShowComIO.TabIndex = 16;
             this.buttonShowComIO.Text = "Show Com IO (F7)";
             this.buttonShowComIO.UseVisualStyleBackColor = true;
@@ -951,26 +947,26 @@ namespace AbbCom.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(185, 544);
+            this.label1.Location = new System.Drawing.Point(222, 628);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(148, 13);
+            this.label1.Size = new System.Drawing.Size(198, 17);
             this.label1.TabIndex = 17;
             this.label1.Text = "Cam 1 Image Display (Lane 1)";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(818, 544);
+            this.label2.Location = new System.Drawing.Point(982, 628);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(148, 13);
+            this.label2.Size = new System.Drawing.Size(198, 17);
             this.label2.TabIndex = 18;
             this.label2.Text = "Cam 2 Image Display (Lane 2)";
             // 
             // buttonSelectRecipe
             // 
-            this.buttonSelectRecipe.Location = new System.Drawing.Point(904, 610);
+            this.buttonSelectRecipe.Location = new System.Drawing.Point(1085, 704);
             this.buttonSelectRecipe.Name = "buttonSelectRecipe";
-            this.buttonSelectRecipe.Size = new System.Drawing.Size(145, 60);
+            this.buttonSelectRecipe.Size = new System.Drawing.Size(174, 69);
             this.buttonSelectRecipe.TabIndex = 19;
             this.buttonSelectRecipe.Text = "Select Recipe (F4)";
             this.buttonSelectRecipe.UseVisualStyleBackColor = true;
@@ -981,9 +977,9 @@ namespace AbbCom.Forms
             this.labelRecipeNotSelected.AutoSize = true;
             this.labelRecipeNotSelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRecipeNotSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.labelRecipeNotSelected.Location = new System.Drawing.Point(565, 696);
+            this.labelRecipeNotSelected.Location = new System.Drawing.Point(678, 803);
             this.labelRecipeNotSelected.Name = "labelRecipeNotSelected";
-            this.labelRecipeNotSelected.Size = new System.Drawing.Size(251, 29);
+            this.labelRecipeNotSelected.Size = new System.Drawing.Size(300, 36);
             this.labelRecipeNotSelected.TabIndex = 20;
             this.labelRecipeNotSelected.Text = "Recipe Not selected";
             // 
@@ -992,9 +988,9 @@ namespace AbbCom.Forms
             this.labelSimMode.AutoSize = true;
             this.labelSimMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSimMode.ForeColor = System.Drawing.Color.Red;
-            this.labelSimMode.Location = new System.Drawing.Point(509, 637);
+            this.labelSimMode.Location = new System.Drawing.Point(611, 735);
             this.labelSimMode.Name = "labelSimMode";
-            this.labelSimMode.Size = new System.Drawing.Size(365, 29);
+            this.labelSimMode.Size = new System.Drawing.Size(448, 36);
             this.labelSimMode.TabIndex = 21;
             this.labelSimMode.Text = "Vision Simulation Mode Active";
             // 
@@ -1009,7 +1005,7 @@ namespace AbbCom.Forms
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1244, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1244, 28);
             this.menuStrip1.TabIndex = 22;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1023,20 +1019,20 @@ namespace AbbCom.Forms
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // selectRecipeToolStripMenuItem
             // 
             this.selectRecipeToolStripMenuItem.Name = "selectRecipeToolStripMenuItem";
-            this.selectRecipeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.selectRecipeToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.selectRecipeToolStripMenuItem.Text = "Select Recipe";
             this.selectRecipeToolStripMenuItem.Click += new System.EventHandler(this.selectRecipeToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.saveToolStripMenuItem.Text = "Save Parameters";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -1044,7 +1040,7 @@ namespace AbbCom.Forms
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.saveAsToolStripMenuItem.Text = "Save Recipe As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -1052,19 +1048,19 @@ namespace AbbCom.Forms
             // 
             this.deleteRecipeToolStripMenuItem.Enabled = false;
             this.deleteRecipeToolStripMenuItem.Name = "deleteRecipeToolStripMenuItem";
-            this.deleteRecipeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.deleteRecipeToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.deleteRecipeToolStripMenuItem.Text = "Delete Recipe";
             this.deleteRecipeToolStripMenuItem.Click += new System.EventHandler(this.deleteRecipeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1073,13 +1069,13 @@ namespace AbbCom.Forms
             this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.defaultRecipeToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(114, 24);
             this.configurationToolStripMenuItem.Text = "Configuration";
             // 
             // defaultRecipeToolStripMenuItem
             // 
             this.defaultRecipeToolStripMenuItem.Name = "defaultRecipeToolStripMenuItem";
-            this.defaultRecipeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.defaultRecipeToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
             this.defaultRecipeToolStripMenuItem.Text = "DefaultRecipe";
             this.defaultRecipeToolStripMenuItem.Click += new System.EventHandler(this.defaultRecipeToolStripMenuItem_Click);
             // 
@@ -1093,46 +1089,46 @@ namespace AbbCom.Forms
             this.toolStripSeparator3,
             this.userAccessSettingsToolStripMenuItem});
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
             this.advancedToolStripMenuItem.Text = "Advanced";
             // 
             // saveVisionParametersToQuickBuildToolStripMenuItem
             // 
             this.saveVisionParametersToQuickBuildToolStripMenuItem.Name = "saveVisionParametersToQuickBuildToolStripMenuItem";
-            this.saveVisionParametersToQuickBuildToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.saveVisionParametersToQuickBuildToolStripMenuItem.Size = new System.Drawing.Size(337, 26);
             this.saveVisionParametersToQuickBuildToolStripMenuItem.Text = "Save Vision Parameters to QuickBuild";
             this.saveVisionParametersToQuickBuildToolStripMenuItem.Click += new System.EventHandler(this.saveVisionParametersToQuickBuildToolStripMenuItem_Click);
             // 
             // saveRobotDataModulesToolStripMenuItem
             // 
             this.saveRobotDataModulesToolStripMenuItem.Name = "saveRobotDataModulesToolStripMenuItem";
-            this.saveRobotDataModulesToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.saveRobotDataModulesToolStripMenuItem.Size = new System.Drawing.Size(337, 26);
             this.saveRobotDataModulesToolStripMenuItem.Text = "Save Robot Data Modules";
             this.saveRobotDataModulesToolStripMenuItem.Click += new System.EventHandler(this.saveDataModulesToolStripMenuItem_Click);
             // 
             // engineeringToolStripMenuItem
             // 
             this.engineeringToolStripMenuItem.Name = "engineeringToolStripMenuItem";
-            this.engineeringToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.engineeringToolStripMenuItem.Size = new System.Drawing.Size(337, 26);
             this.engineeringToolStripMenuItem.Text = "Engineering";
             this.engineeringToolStripMenuItem.Click += new System.EventHandler(this.engineeringToolStripMenuItem_Click);
             // 
             // openRecipeFolderToolStripMenuItem
             // 
             this.openRecipeFolderToolStripMenuItem.Name = "openRecipeFolderToolStripMenuItem";
-            this.openRecipeFolderToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.openRecipeFolderToolStripMenuItem.Size = new System.Drawing.Size(337, 26);
             this.openRecipeFolderToolStripMenuItem.Text = "Open Recipe Folder";
             this.openRecipeFolderToolStripMenuItem.Click += new System.EventHandler(this.openRecipeFolderToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(267, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(334, 6);
             // 
             // userAccessSettingsToolStripMenuItem
             // 
             this.userAccessSettingsToolStripMenuItem.Name = "userAccessSettingsToolStripMenuItem";
-            this.userAccessSettingsToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.userAccessSettingsToolStripMenuItem.Size = new System.Drawing.Size(337, 26);
             this.userAccessSettingsToolStripMenuItem.Text = "User Access Settings";
             this.userAccessSettingsToolStripMenuItem.Click += new System.EventHandler(this.userAccessSettingstoolStripMenuItem_Click);
             // 
@@ -1144,39 +1140,39 @@ namespace AbbCom.Forms
             this.toolStripMenuItemBackup,
             this.optionsToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-            this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.systemToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.systemToolStripMenuItem.Text = "System";
             // 
             // logonToolStripMenuItem
             // 
             this.logonToolStripMenuItem.Name = "logonToolStripMenuItem";
-            this.logonToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.logonToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.logonToolStripMenuItem.Text = "Log On/Off";
             this.logonToolStripMenuItem.Click += new System.EventHandler(this.logonToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(132, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(164, 6);
             // 
             // toolStripMenuItemBackup
             // 
             this.toolStripMenuItemBackup.Name = "toolStripMenuItemBackup";
-            this.toolStripMenuItemBackup.Size = new System.Drawing.Size(135, 22);
+            this.toolStripMenuItemBackup.Size = new System.Drawing.Size(167, 26);
             this.toolStripMenuItemBackup.Text = "Backup";
             this.toolStripMenuItemBackup.Click += new System.EventHandler(this.toolStripMenuItemBackup_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1185,9 +1181,9 @@ namespace AbbCom.Forms
             this.labelThermDisabled.AutoSize = true;
             this.labelThermDisabled.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelThermDisabled.ForeColor = System.Drawing.Color.Red;
-            this.labelThermDisabled.Location = new System.Drawing.Point(509, 667);
+            this.labelThermDisabled.Location = new System.Drawing.Point(611, 770);
             this.labelThermDisabled.Name = "labelThermDisabled";
-            this.labelThermDisabled.Size = new System.Drawing.Size(348, 29);
+            this.labelThermDisabled.Size = new System.Drawing.Size(418, 36);
             this.labelThermDisabled.TabIndex = 23;
             this.labelThermDisabled.Text = "Thermal Inspection Disabled";
             // 
@@ -1205,9 +1201,9 @@ namespace AbbCom.Forms
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(17, 605);
+            this.label3.Location = new System.Drawing.Point(20, 698);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 15);
+            this.label3.Size = new System.Drawing.Size(100, 18);
             this.label3.TabIndex = 25;
             this.label3.Text = "Cam 1 status:";
             // 
@@ -1215,9 +1211,9 @@ namespace AbbCom.Forms
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(18, 647);
+            this.label4.Location = new System.Drawing.Point(22, 747);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(81, 15);
+            this.label4.Size = new System.Drawing.Size(100, 18);
             this.label4.TabIndex = 26;
             this.label4.Text = "Cam 2 status:";
             // 
@@ -1225,12 +1221,12 @@ namespace AbbCom.Forms
             // 
             this.textBoxBaslerStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxBaslerStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxBaslerStatus.Location = new System.Drawing.Point(174, 610);
+            this.textBoxBaslerStatus.Location = new System.Drawing.Point(209, 704);
             this.textBoxBaslerStatus.Multiline = true;
             this.textBoxBaslerStatus.Name = "textBoxBaslerStatus";
             this.textBoxBaslerStatus.ReadOnly = true;
             this.textBoxBaslerStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxBaslerStatus.Size = new System.Drawing.Size(265, 50);
+            this.textBoxBaslerStatus.Size = new System.Drawing.Size(318, 58);
             this.textBoxBaslerStatus.TabIndex = 27;
             this.textBoxBaslerStatus.Text = "OK";
             // 
@@ -1238,18 +1234,14 @@ namespace AbbCom.Forms
             // 
             this.textBoxFlirStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxFlirStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxFlirStatus.Location = new System.Drawing.Point(174, 668);
+            this.textBoxFlirStatus.Location = new System.Drawing.Point(209, 771);
             this.textBoxFlirStatus.Multiline = true;
             this.textBoxFlirStatus.Name = "textBoxFlirStatus";
             this.textBoxFlirStatus.ReadOnly = true;
             this.textBoxFlirStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxFlirStatus.Size = new System.Drawing.Size(265, 50);
+            this.textBoxFlirStatus.Size = new System.Drawing.Size(318, 57);
             this.textBoxFlirStatus.TabIndex = 28;
             this.textBoxFlirStatus.Text = "OK";
-            // 
-            // timerPLC_Heartbeat
-            // 
-            this.timerPLC_Heartbeat.Interval = 30000;
             // 
             // timerRunRecipeChange
             // 
@@ -1261,9 +1253,9 @@ namespace AbbCom.Forms
             this.labelVisionOffline.AutoSize = true;
             this.labelVisionOffline.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelVisionOffline.ForeColor = System.Drawing.Color.Red;
-            this.labelVisionOffline.Location = new System.Drawing.Point(607, 605);
+            this.labelVisionOffline.Location = new System.Drawing.Point(728, 698);
             this.labelVisionOffline.Name = "labelVisionOffline";
-            this.labelVisionOffline.Size = new System.Drawing.Size(183, 29);
+            this.labelVisionOffline.Size = new System.Drawing.Size(225, 36);
             this.labelVisionOffline.TabIndex = 24;
             this.labelVisionOffline.Text = "Vision Off Line";
             // 
@@ -1279,7 +1271,7 @@ namespace AbbCom.Forms
             // 
             // MainForm
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
             this.ClientSize = new System.Drawing.Size(1244, 761);
             this.Controls.Add(this.labelRecipeNotSelected);
             this.Controls.Add(this.label3);
@@ -1640,9 +1632,6 @@ namespace AbbCom.Forms
 
                 statusUpdateGreyScale.Start();
                 statusUpdateThermal.Start();
-
-                timerPLC_Heartbeat.Interval = machineParameters.ComPortPLC_HearBeatFreq;
-                timerPLC_Heartbeat.Start();
 
                 // Start the NUC action timer
                 timerFlirNUCaction.Start();
