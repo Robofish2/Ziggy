@@ -1809,10 +1809,6 @@ namespace AbbCom.Forms
                 int totalOddCount = 0;
                 int totalEvenCount = 0;
                 int angle;
-                RobTarget oddSideRobTarget = new RobTarget();
-                RobTarget oddSideOverLapRobTarget = new RobTarget();
-                RobTarget evenSideRobTarget = new RobTarget();
-                RobTarget evenSideOverLapRobTarget = new RobTarget();
                 ArrayList finalSortedOdd = new ArrayList();
                 ArrayList finalSortedEven = new ArrayList();
 
@@ -1906,34 +1902,11 @@ namespace AbbCom.Forms
                     {
                         VisItemId = (VisItemId % Properties.Settings.Default.VisionItemIDLimit) + 1;
 
-                        if ((trans.TranslationY < runtimeParameters.VisionBeltYoverlap) && (trans.TranslationY > -runtimeParameters.VisionBeltYoverlap))
+                        if (true)
                         {
                             //No operation, will collect middle lane blobs in next loop
                         }
-                        else
-                        {
-
-                            // Assume zero is center of belt, allow overlap so both robots have access to the center lane
-                            if (trans.TranslationY < 0)
-                            {
-                                oddSideRobTarget.X = trans.TranslationX;
-                                oddSideRobTarget.Y = trans.TranslationY;
-                                oddSideRobTarget.Z = 0;
-                                oddSideRobTarget.Theta = trans.Rotation;
-                                oddSideRobTarget.ID = VisItemId;
-                                collectionOdd.Add(oddSideRobTarget);
-                            }
-
-                            if (trans.TranslationY > 0)
-                            {
-                                evenSideRobTarget.X = trans.TranslationX;
-                                evenSideRobTarget.Y = trans.TranslationY;
-                                evenSideRobTarget.Z = 0;
-                                evenSideRobTarget.Theta = trans.Rotation;
-                                evenSideRobTarget.ID = VisItemId;
-                                collectionEven.Add(evenSideRobTarget);
-                            }
-                        }
+   
                     }
 
                     // Collect blobs for the middle lane
@@ -1941,23 +1914,7 @@ namespace AbbCom.Forms
                     {
                         VisItemId = (VisItemId % Properties.Settings.Default.VisionItemIDLimit) + 1;
 
-                        if ((trans.TranslationY < runtimeParameters.VisionBeltYoverlap) && (trans.TranslationY > -runtimeParameters.VisionBeltYoverlap))
-                        {
-                            oddSideOverLapRobTarget.X = trans.TranslationX;
-                            oddSideOverLapRobTarget.Y = trans.TranslationY;
-                            oddSideOverLapRobTarget.Z = 0;
-                            oddSideOverLapRobTarget.Theta = trans.Rotation;
-                            oddSideOverLapRobTarget.ID = VisItemId;
-                            collectionOverLapOdd.Add(oddSideOverLapRobTarget);
-
-                            evenSideOverLapRobTarget.X = trans.TranslationX;
-                            evenSideOverLapRobTarget.Y = trans.TranslationY;
-                            evenSideOverLapRobTarget.Z = 0;
-                            evenSideOverLapRobTarget.Theta = trans.Rotation;
-                            evenSideOverLapRobTarget.ID = VisItemId;
-                            collectionOverLapEven.Add(evenSideOverLapRobTarget);
-                        }
-                    }
+                         }
 
                     // Decide to send new frame message to odd side robots
                     totalOddCount = collectionOdd.Count + collectionOverLapOdd.Count;
