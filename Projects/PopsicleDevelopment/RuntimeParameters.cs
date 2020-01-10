@@ -52,7 +52,6 @@ namespace AbbCom
         public double VisFlirRegionYadj = 0;
         public int VisPictureFrequency = 500;
         public int VisionJobNumber = 1;
-        public int VisionBeltYoverlap = 30;
         public bool VisShowVisionTriggers = false;
 
         public bool VisUseBlob = true;

@@ -183,10 +183,6 @@ namespace AbbCom.Forms
                     runtimeParameters.VisOddSortAngle = (double)((NumericUpDown)sender).Value;
                     break;
 
-                case "numericUpDownCenterLaneOverlap":
-                    runtimeParameters.VisionBeltYoverlap = (int)((NumericUpDown)sender).Value;
-                    break;
-
                 case "numericUpDownVisSideXLength":
 
                     if (mcjmAcq == null)
@@ -286,7 +282,6 @@ namespace AbbCom.Forms
                 numericUpDownVisionJobNumber.Value = runtimeParameters.VisionJobNumber;
                 checkBoxShowTriggerOutput.Checked = runtimeParameters.VisShowVisionTriggers;
 
-                numericUpDownCenterLaneOverlap.Value = runtimeParameters.VisionBeltYoverlap;
                 numericUpDownVisSideXLength.Value = (decimal)runtimeParameters.VisSideXLength;
                 numericUpDownVisSideYLength.Value = (decimal)runtimeParameters.VisSideYLength;
                 numericUpDownFlirRegionXadj.Value = (decimal)runtimeParameters.VisFlirRegionXadj;
